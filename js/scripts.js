@@ -23,6 +23,7 @@ function Snake(context) {
     this.bits.push(tailBit);
   }
   context.stroke();
+  this.gameEnd = false;
 }
 //Synchronizes snake movement
 Snake.prototype.updateBits = function() {
@@ -40,18 +41,13 @@ Snake.prototype.snakeBite = function(context) {
 }
 //check for game ending conditions
 Snake.prototype.gameOver = function() {
-  var gameEnd = false;
   for (var i = 2; i < this.bits.length; i++) {
     if(this.bits[0].xc === this.bits[i].xc && this.bits[0].yc === this.bits[i].yc) {
-      gameEnd = true;
-      return gameEnd;
+      this.gameEnd = true;
     }
   }
-  if(this.bits[0].xc < 800 && this.bits[0].xc >= 0 && this.bits[0].yc < 600 && this.bits[0].yc >= 0) {
-    return gameEnd;
-  } else {
-    gameEnd = true;
-    return gameEnd;
+  if(this.bits[0].xc >= 800 || this.bits[0].xc < 0 || this.bits[0].yc >= 600 || this.bits[0].yc < 0) {
+    this.gameEnd = true;
   }
 }
 
@@ -62,27 +58,27 @@ $(document).ready(function() {
   $(document.body).on('keydown', function onkeypress(key) {
     switch(key.keyCode) {
       case 40:
-        down = true;
-        up = false;
+        if(!up)
+          down = true;
         right = false;
         left = false;
         break;
       case 37:
-        left = true;
+        if (!right)
+          left = true;
         up = false;
-        right = false;
         down = false;
         break;
       case 38:
-        up = true;
+        if (!down)
+          up = true;
         right = false;
         left = false;
-        down = false;
         break;
       case 39:
-        right = true;
+        if (!left)
+          right = true;
         up = false;
-        left = false;
         down = false;
         break;
     }
@@ -152,7 +148,8 @@ $(document).ready(function() {
         ctx.fillRect(snakeGuy.initialX, snakeGuy.initialY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
       }
       //ends game if game ending conditions are true
-      if(snakeGuy.gameOver()) {
+      snakeGuy.gameOver();
+      if(snakeGuy.gameEnd) {
         ctx.fillStyle = 'white';
         ctx.fillRect(0,0,c.clientWidth,c.clientHeight);
       } else {
