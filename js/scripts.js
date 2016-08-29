@@ -59,28 +59,20 @@ $(document).ready(function() {
   $(document.body).on('keydown', function onkeypress(key) {
     switch(key.keyCode) {
       case 40:
-        if(!up)
-          down = true;
-        right = false;
-        left = false;
+        if (preventKeyChange != 'down')
+          lastKey = 'down';
         break;
       case 37:
-        if (!right)
-          left = true;
-        up = false;
-        down = false;
+        if (preventKeyChange != 'left')
+          lastKey = 'left';
         break;
       case 38:
-        if (!down)
-          up = true;
-        right = false;
-        left = false;
+        if(preventKeyChange != 'up')
+          lastKey = 'up';
         break;
       case 39:
-        if (!left)
-          right = true;
-        up = false;
-        down = false;
+        if (preventKeyChange != 'right')
+          lastKey = 'right';
         break;
     }
   });
@@ -88,12 +80,10 @@ $(document).ready(function() {
 //declares initial game variables
   var c = document.getElementById('canvas');
   var ctx = c.getContext('2d');
-  var up = false;
-  var down = false;
-  var left = false;
-  var right = true;
-  var gameSpeed = 100;
+  var lastKey = 'right';
+  var gameSpeed = 500;
   var prevTimestamp = null;
+  var preventKeyChange = 'left';
 
 //creates snake object and initial images
   var snakeGuy = new Snake(ctx);
@@ -104,6 +94,8 @@ $(document).ready(function() {
   //creates initial coordinates for item
   var itemX = Math.floor((Math.random()*800)/10)*10;
   var itemY = Math.floor((Math.random()*600)/10)*10;
+  var itemColor = 'black';
+  ctx.fillRect(itemX, itemY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
 
 //initiates and maintains frame updates
   $("#canvas").click(function() {
@@ -112,27 +104,34 @@ $(document).ready(function() {
       if(timestamp > prevTimestamp + gameSpeed) {
         initialCounter++;
         prevTimestamp = timestamp;
+        // canvas color
         ctx.fillStyle = 'white';
         ctx.fillRect(0,0,c.clientWidth,c.clientHeight);
-
+        // item color
+        ctx.fillStyle = itemColor;
+        ctx.fillRect(itemX, itemY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
+        // snakebit color
         ctx.fillStyle = "black";
         ctx.beginPath();
 
-        ctx.fillRect(itemX, itemY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
         //transforms user input into snake movement direction
-        if (left == true) {
+        if (lastKey == 'left') {
+          preventKeyChange = 'right';
           snakeGuy.bits[0].xc -= 10;
           snakeGuy.updateBits();
           ctx.stroke();
-        } else if (right == true) {
+        } else if (lastKey == 'right') {
+          preventKeyChange = 'left';
           snakeGuy.bits[0].xc += 10;
           snakeGuy.updateBits();
           ctx.stroke();
-        }  else if (down == true) {
+        }  else if (lastKey == 'down') {
+          preventKeyChange = 'up';
           snakeGuy.bits[0].yc += 10;
           snakeGuy.updateBits();
           ctx.stroke();
-        }  else if (up == true) {
+        }  else if (lastKey == 'up') {
+          preventKeyChange = 'down';
           snakeGuy.bits[0].yc -= 10;
           snakeGuy.updateBits();
           ctx.stroke();
@@ -140,12 +139,25 @@ $(document).ready(function() {
       }
       //generates new item placement when snake consumes item
       if(snakeGuy.bits[0].xc === itemX  && snakeGuy.bits[0].yc === itemY) {
+        itemColor = Math.floor(Math.random()*5);
+        if (itemColor == 0) {
+          itemColor = 'yellow';
+        } else if (itemColor == 1) {
+          itemColor = 'green';
+        } else if (itemColor == 2) {
+          itemColor = 'blue';
+        } else if (itemColor == 3) {
+          itemColor = 'red';
+        } else {
+          itemColor = 'black';
+        }
         itemX = Math.floor((Math.random()*800)/10)*10;
         itemY = Math.floor((Math.random()*600)/10)*10;
+
         snakeGuy.snakeBite(ctx);
         snakeGuy.score += 10;
       }
-      //takes care of white space in snake body during the beginning of the game
+      //fixes white space in snake body during the beginning of the game
       if (initialCounter < snakeGuy.bits.length-2) {
         ctx.fillRect(snakeGuy.initialX, snakeGuy.initialY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
       }
