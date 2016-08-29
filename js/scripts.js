@@ -8,15 +8,18 @@ SnakeBit.prototype.updateBit = function() {
   this.context.fillRect(this.xc, this.yc, this.squareSize, this.squareSize);
 }
 function Snake(context) {
-  var initialX = 100;
-  var initialY = 300;
-  var headBit = new SnakeBit(initialX,initialY, context);
+  this.initialX = 100;
+  this.initialY = 300;
+  context.fillStyle = 'black';
+  context.beginPath();
+  var headBit = new SnakeBit(this.initialX,this.initialY, context);
   this.bits = [headBit];
-  for (var i = 1; i < 4; i++) {
-    var tailBit = new SnakeBit(initialX-(10*i),initialY, context);
+  for (var i = 1; i < 6; i++) {
+    var tailBit = new SnakeBit(this.initialX-(10*i),this.initialY, context);
     this.bits.push(tailBit);
   }
   this.gameOver = false;
+  context.stroke();
 }
 Snake.prototype.updateBits = function() {
   this.bits[0].updateBit();
@@ -67,38 +70,49 @@ $(document).ready(function() {
 
   var xCoord = null;
   var yCoord = null;
-  var gameSpeed = 100;
+  var gameSpeed = 200;
   var prevTimestamp = null;
+
   var snakeGuy = new Snake(ctx);
+  snakeGuy.bits[0].xc += 10;
+  snakeGuy.updateBits();
+  ctx.fillRect(100, 300, 9, 9);
+  console.log(snakeGuy.bits);
 
-  var startTime = null;
-  window.requestAnimationFrame(function step(timestamp) {
-    if(timestamp > prevTimestamp + gameSpeed) {
-      prevTimestamp = timestamp;
-      ctx.fillStyle = 'white';
-      ctx.fillRect(0,0,c.clientWidth,c.clientHeight);
 
-      ctx.beginPath();
-      ctx.fillStyle = "black";
-      if (left == true) {
-        snakeGuy.bits[0].xc -= 10;
-        snakeGuy.updateBits();
-        ctx.stroke();
-      } else if (right == true) {
-        snakeGuy.bits[0].xc += 10;
-        snakeGuy.updateBits();
-        ctx.stroke();
-      }  else if (down == true) {
-        snakeGuy.bits[0].yc += 10;
-        snakeGuy.updateBits();
-        ctx.stroke();
-      }  else if (up == true) {
-        snakeGuy.bits[0].yc -= 10;
-        snakeGuy.updateBits();
-        ctx.stroke();
+  $("#canvas").click(function() {
+    var initialCounter = 0;
+    window.requestAnimationFrame(function step(timestamp) {
+      if(timestamp > prevTimestamp + gameSpeed) {
+        initialCounter++;
+        prevTimestamp = timestamp;
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0,0,c.clientWidth,c.clientHeight);
+
+        ctx.fillStyle = "black";
+        ctx.beginPath();
+
+        if (left == true) {
+          snakeGuy.bits[0].xc -= 10;
+          snakeGuy.updateBits();
+          ctx.stroke();
+        } else if (right == true) {
+          snakeGuy.bits[0].xc += 10;
+          snakeGuy.updateBits();
+          ctx.stroke();
+        }  else if (down == true) {
+          snakeGuy.bits[0].yc += 10;
+          snakeGuy.updateBits();
+          ctx.stroke();
+        }  else if (up == true) {
+          snakeGuy.bits[0].yc -= 10;
+          snakeGuy.updateBits();
+          ctx.stroke();
+        }
       }
-    }
-    console.log(timestamp);
-    window.requestAnimationFrame(step);
-  });
+      if (initialCounter < snakeGuy.bits.length-2)
+        ctx.fillRect(snakeGuy.initialX, snakeGuy.initialY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
+      window.requestAnimationFrame(step);
+    });
+  })
 });
