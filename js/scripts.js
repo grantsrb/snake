@@ -22,7 +22,6 @@ function Snake(context) {
     var tailBit = new SnakeBit(this.initialX-(10*i),this.initialY, context);
     this.bits.push(tailBit);
   }
-  this.gameOver = false;
   context.stroke();
 }
 //Synchronizes snake movement
@@ -34,6 +33,30 @@ Snake.prototype.updateBits = function() {
     this.bits[count].updateBit();
   }
 }
+//adds additional snake body to snake object
+Snake.prototype.snakeBite = function(context) {
+  var tailBit = new SnakeBit(this.bits[2].xc,this.bits[2].yc, context);
+  this.bits.push(tailBit);
+}
+//check for game ending conditions
+Snake.prototype.gameOver = function() {
+  var gameEnd = false;
+  for (var i = 2; i < this.bits.length; i++) {
+    if(this.bits[0].xc === this.bits[i].xc && this.bits[0].yc === this.bits[i].yc) {
+      gameEnd = true;
+      return gameEnd;
+    }
+  }
+  if(this.bits[0].xc < 800 && this.bits[0].xc >= 0 && this.bits[0].yc < 600 && this.bits[0].yc >= 0) {
+    return gameEnd;
+  } else {
+    gameEnd = true;
+    return gameEnd;
+  }
+}
+
+
+
 $(document).ready(function() {
 //receives user input
   $(document.body).on('keydown', function onkeypress(key) {
@@ -99,7 +122,7 @@ $(document).ready(function() {
         ctx.beginPath();
 
         ctx.fillRect(itemX, itemY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
-        //tranforms user input into snake movement direction
+        //transforms user input into snake movement direction
         if (left == true) {
           snakeGuy.bits[0].xc -= 10;
           snakeGuy.updateBits();
@@ -122,12 +145,19 @@ $(document).ready(function() {
       if(snakeGuy.bits[0].xc === itemX  && snakeGuy.bits[0].yc === itemY) {
         itemX = Math.floor((Math.random()*800)/10)*10;
         itemY = Math.floor((Math.random()*600)/10)*10;
+        snakeGuy.snakeBite(ctx);
       }
       //takes care of white space in snake body during the beginning of the game
-      if (initialCounter < snakeGuy.bits.length-2)
+      if (initialCounter < snakeGuy.bits.length-2) {
         ctx.fillRect(snakeGuy.initialX, snakeGuy.initialY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
-
-      window.requestAnimationFrame(step);
+      }
+      //ends game if game ending conditions are true
+      if(snakeGuy.gameOver()) {
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0,0,c.clientWidth,c.clientHeight);
+      } else {
+        window.requestAnimationFrame(step);
+      }
     });
   })
 });
