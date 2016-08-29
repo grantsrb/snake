@@ -109,6 +109,7 @@ $(document).ready(function() {
   $("#canvas").click(function() {
     var initialCounter = 0;
     window.requestAnimationFrame(function step(timestamp) {
+      $(".showScore").text(snakeGuy.score);
       if(timestamp > prevTimestamp + gameSpeed) {
         initialCounter++;
         prevTimestamp = timestamp;
