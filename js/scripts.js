@@ -24,6 +24,7 @@ function Snake(context) {
   }
   context.stroke();
   this.gameEnd = false;
+  this.score = 0;
 }
 //Synchronizes snake movement
 Snake.prototype.updateBits = function() {
@@ -142,6 +143,7 @@ $(document).ready(function() {
         itemX = Math.floor((Math.random()*800)/10)*10;
         itemY = Math.floor((Math.random()*600)/10)*10;
         snakeGuy.snakeBite(ctx);
+        snakeGuy.score += 10;
       }
       //takes care of white space in snake body during the beginning of the game
       if (initialCounter < snakeGuy.bits.length-2) {
