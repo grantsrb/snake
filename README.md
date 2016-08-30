@@ -18,12 +18,17 @@ Game will plot an item in random x, y coordinates | math.floor(math.random()) | 
 When item is consumed by 'snake', it's body will increase in length | this.bits.push(tailBit); | [][][][]
 Item regenerates after being consumed in random location | if(snakeGuy.bits[0].xc === itemX  && snakeGuy.bits[0].yc === itemY) | N/A
 Each item collected will increase user score | item consumed | user.score += 10
+When 'snake' hits a canvas boundary, game ends | snake = boundary(xCoordinate) | Game Over !
+When snake hits itself, game over | snakeHead(xCoordinate) = body(xCoordinate) | Game Over !
+Different items, allow for different game settings | redItem = speedUp | snake increases speed
 
 ## Setup/Installation Requirements ##
 
 To use this program, you will need:
 
-* A web browser (Chrome is recommended)
+* Go to our [Github Page](https://github.com/grantsrb/snake)
+* Access Terminal
+* Execute following command on your desktop: $git clone https://github.com/grantsrb/snake
 
 ## GitHub Pages ##
 

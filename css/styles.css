@@ -1,3 +1,8 @@
+@font-face { font-family: WishMF; src: url('../font/WishMF.ttf');}
+@font-face { font-family: tlpsmb; src: url('../font/tlpsmb.ttf');}
+@font-face { font-family: Primitive; src: url('../font/Primitive.ttf');}
+@font-face { font-family: Triforce; src: url('../font/Triforce.ttf');}
+@font-face { font-family: Pocket Monster; src: url('../font/pocket_monsters_2.ttf');}
 
 body {
   font-family: 'Abel', sans-serif;
@@ -33,10 +38,89 @@ h3 {
   text-align: center;
   font-size: 20px;
 }
-.container{
-  max-width: 1000px;
-}
+/*.container{
+  max-width: 2000px;
+}*/
 img{
   display: block;
   margin: auto;
+}
+#rightColumn{
+  padding-left: 50px;
+}
+#leftColumn{
+  padding-right: 50px;
+}
+.marioText{
+    font-family: 'tlpsmb', cursive;
+    text-align: center;
+    font-size: 7em;
+    margin-top: 5%;
+    color: white;
+}
+.marioBackground {
+  background: #50c5fb;
+}
+.sailorMoonText {
+  font-family: 'WishMF', cursive;
+  font-weight: bold;
+  text-align: center;
+  font-size: 7em;
+  margin-top: 5%;
+  color: #ffe066;
+}
+.sailorMoonBackground {
+  background: #ffb3ff;
+}
+.castlevaniaText {
+  font-family: 'Primitive', cursive;
+  text-align: center;
+  font-size: 7em;
+  margin-top: 5%;
+  color: #fffff0;
+}
+.castlevaniaBackground {
+  background: #33334d;
+}
+.zelda1Text {
+  font-family: 'Triforce', cursive;
+  text-align: center;
+  font-size: 7em;
+  margin-top: 5%;
+  color: #ffcc00;
+}
+.zelda1Background {
+  background: #004d00;
+}
+.zelda2Text {
+  font-family: 'Triforce', cursive;
+  text-shadow: 2px 2px black;
+  text-align: center;
+  font-size: 7em;
+  margin-top: 5%;
+  color: #FFF;
+}
+.zelda2Background {
+  background: #00b3b3;
+}
+.zelda3Text {
+  font-family: 'Triforce', cursive;
+  text-align: center;
+  font-size: 7em;
+  margin-top: 5%;
+  color: #ffdd99;
+}
+.zelda3Background {
+  background: #604020;
+}
+.pokemonText {
+  font-family: 'Pocket Monster', cursive;
+  text-align: center;
+  font-size: 9em;
+  margin-top: 5%;
+  color: yellow;
+  text-shadow: 7px 7px 7px blue;
+}
+.pokemonBackground {
+  background: #e60000;
 }

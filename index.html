@@ -14,10 +14,28 @@
       <h1>SNAKE GAME</h1>
       <h3>Created By: Elysia Avery Nason, Joanna Anderson, Sandro Alvarez, and Satchel Grant</h3>
       <div class="row">
-        <div class="col-xs-10">
+        <div class="col-md-2" id="leftColumn">
+          <h2>Themes:</h2>
+          <select class="form-control" id="themes">
+            <option>None</option>
+            <option>Mario</option>
+            <option>Sailor Moon</option>
+            <option>Castlevania</option>
+            <option>Legend of Zelda 1</option>
+            <option>Legend of Zelda 2</option>
+            <option>Legend of Zelda 3</option>
+            <option>Pokemon</option>
+          </select>
+          <h2>Control Key:</h2>
+          <p>Option 1:</p>
+          <img class="img-responsive" src="img/ControlKeyIJKL.png">
+          <p>Option 2:</p>
+          <img class="img-responsive" src="img/ControlKeyWASD.png">
+        </div>
+        <div class="col-md-8">
           <canvas style="border: 5px solid black;" id="canvas" width="800" height="600"></canvas>
         </div>
-        <div class="col-xs-2">
+        <div class="col-md-2" id="rightColumn">
           <h2 class="score">Score: <span class="showScore"></span></h2>
           <h2>Rules:</h2>
           <ul>
@@ -27,8 +45,6 @@
             <li>Eat as many items on the screen as possible</li>
             <li>description about what each color/item will do to the snake</li>
           </ul>
-          <h2>Control Key:</h2>
-          <img class="img-responsive" src="img/controlkey.png">
         </div>
       </div>
     </div>
