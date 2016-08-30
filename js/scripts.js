@@ -123,10 +123,19 @@ function flashingText(context){
       $("canvas").css('background-color', 'black');
     }
   }, 200);
+}
+// parses information from checkboxes
+function parseColors(powerChoicesIn) {
+  var colorChoicesOut = [[true, true, true, true, true], ['orange','green','blue','red','star']];
+  for (var i = 0; i < powerChoicesIn.length; i++) {
+    for (var j = 0; j < colorChoicesOut[1].length; j++) {
+      if (powerChoicesIn[i] == colorChoicesOut[1][j]) {
+        colorChoicesOut[0][j] = true;
+      }
+    }
   }
-
-
-
+  return colorChoicesOut;
+}
 $(document).ready(function() {
 //receives user input
   $(document.body).on('keydown', function onkeypress(key) {
@@ -184,6 +193,11 @@ $(document).ready(function() {
 
 //initiates and maintains frame updates
   $("#canvas").click(function() {
+    var powerChoices = [];
+    // $('input:checkbox[name=powerups]:checked').each(function(){
+    //   powerChoices.push(this.value);
+    // });
+    var colorChoices = parseColors(powerChoices);
     var initialCounter = 0;
     window.requestAnimationFrame(function step(timestamp) {
       $(".showScore").text(snakeGuy.score);
@@ -237,15 +251,15 @@ $(document).ready(function() {
         snakeGuy.changeProperty(itemColor, ctx);
         snakeColor = itemColor;
         itemColor = Math.floor(Math.random()*6);
-        if (itemColor == 0) {
+        if (itemColor == 0 && colorChoices[0][0]) {
           itemColor = 'orange';
-        } else if (itemColor == 1) {
+        } else if (itemColor == 1 && colorChoices[0][1]) {
           itemColor = 'green';
-        } else if (itemColor == 2) {
+        } else if (itemColor == 2 && colorChoices[0][2]) {
           itemColor = 'blue';
-        } else if (itemColor == 3) {
+        } else if (itemColor == 3 && colorChoices[0][3]) {
           itemColor = 'red';
-        } else if (itemColor == 4) {
+        } else if (itemColor == 4 && colorChoices[0][4]) {
           itemColor = 'star';
         } else {
           itemColor = 'black';
