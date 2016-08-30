@@ -203,8 +203,4 @@ $(document).ready(function() {
       }
     });
   });
-  // Added by JA
-  $("h1").click(function(){
-    document.location.reload(true);
-  });
 });
