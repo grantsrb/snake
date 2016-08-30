@@ -23,6 +23,7 @@ function Snake(context, xStart, yStart, squareSizeIn) {
     this.bits.push(tailBit);
   }
   context.stroke();
+  this.snakeSpeed = 50;
   this.gameEnd = false;
   this.score = 0;
 }
@@ -49,6 +50,13 @@ Snake.prototype.gameOver = function(canvasWidth, canvasHeight) {
   }
   if(this.bits[0].xc >= canvasWidth || this.bits[0].xc < 0 || this.bits[0].yc >= canvasHeight || this.bits[0].yc < 0) {
     this.gameEnd = true;
+  }
+}
+Snake.prototype.changeProperty = function(color) {
+  this.snakeSpeed = 50;
+  switch (color) {
+    case 'red':
+      this.snakeSpeed = 10;
   }
 }
 
@@ -113,7 +121,6 @@ $(document).ready(function() {
   var canvasHeight = 600;
   console.log(canvasWidth);
   var lastKey = 'right';
-  var gameSpeed = 50;
   var prevTimestamp = null;
   var preventKeyChange = 'left';
   var bitSquareSize = 9;
@@ -138,7 +145,7 @@ $(document).ready(function() {
     var initialCounter = 0;
     window.requestAnimationFrame(function step(timestamp) {
       $(".showScore").text(snakeGuy.score);
-      if(timestamp > prevTimestamp + gameSpeed) {
+      if(timestamp > prevTimestamp + snakeGuy.snakeSpeed) {
         initialCounter++;
         prevTimestamp = timestamp;
         // canvas color
@@ -176,6 +183,7 @@ $(document).ready(function() {
       }
       //generates new item placement when snake consumes item
       if(snakeGuy.bits[0].xc === itemX  && snakeGuy.bits[0].yc === itemY) {
+        snakeGuy.changeProperty(itemColor);
         snakeColor = itemColor;
         itemColor = Math.floor(Math.random()*5);
         if (itemColor == 0) {
