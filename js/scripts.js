@@ -51,9 +51,23 @@ Snake.prototype.gameOver = function(canvasWidth, canvasHeight) {
         this.gameEnd = true;
       }
     }
-  }
-  if(this.bits[0].xc >= canvasWidth || this.bits[0].xc < 0 || this.bits[0].yc >= canvasHeight || this.bits[0].yc < 0) {
-    this.gameEnd = true;
+    if(this.bits[0].xc >= canvasWidth || this.bits[0].xc < 0 || this.bits[0].yc >= canvasHeight || this.bits[0].yc < 0) {
+      this.gameEnd = true;
+    }
+  } else {
+    if(this.bits[0].xc >= canvasWidth) {
+      this.bits[0].xc -= canvasWidth;
+      this.bits[1].xc -= canvasWidth;
+    } else if(this.bits[0].xc < 0) {
+      this.bits[0].xc += canvasWidth;
+      this.bits[1].xc += canvasWidth;
+    } else if(this.bits[0].yc >= canvasHeight) {
+      this.bits[0].yc -= canvasHeight;
+      this.bits[1].yc -= canvasHeight;
+    } else if(this.bits[0].yc < 0) {
+      this.bits[0].yc += canvasHeight;
+      this.bits[1].yc += canvasHeight;
+    }
   }
 }
 Snake.prototype.changeProperty = function(color, context) {
