@@ -57,6 +57,7 @@ img{
     font-size: 7em;
     margin-top: 5%;
     color: white;
+    font-weight: normal;
 }
 .marioBackground {
   background: #50c5fb;
@@ -78,6 +79,7 @@ img{
   font-size: 7em;
   margin-top: 5%;
   color: #fffff0;
+  font-weight: normal;
 }
 .castlevaniaBackground {
   background: #33334d;
@@ -88,6 +90,7 @@ img{
   font-size: 7em;
   margin-top: 5%;
   color: #ffcc00;
+  font-weight: normal;
 }
 .zelda1Background {
   background: #004d00;
@@ -99,6 +102,7 @@ img{
   font-size: 7em;
   margin-top: 5%;
   color: #FFF;
+  font-weight: normal;
 }
 .zelda2Background {
   background: #00b3b3;
@@ -109,6 +113,7 @@ img{
   font-size: 7em;
   margin-top: 5%;
   color: #ffdd99;
+  font-weight: normal;
 }
 .zelda3Background {
   background: #604020;
@@ -120,7 +125,16 @@ img{
   margin-top: 5%;
   color: yellow;
   text-shadow: 7px 7px 7px blue;
+  font-weight: normal;
 }
 .pokemonBackground {
   background: #e60000;
+}
+input[type='checkbox']{
+  display: none;
+}
+input[type='checkbox']:checked + label{
+  background-color: black;
+  color: white;
+  padding-right: 20px;
 }

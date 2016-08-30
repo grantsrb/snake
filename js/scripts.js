@@ -141,36 +141,162 @@ function parseColors(powerChoicesIn) {
   }
   return colorChoicesOut;
 }
+
+//function to play themed game over audio
+function gameOverAudio(userTheme){
+  var marioGameOver = $("#mario-game-over")[0];
+  var sailorMoonGameOver = $("#sailor-moon-game-over")[0];
+  var castlevaniaGameOver = $("#castlevania-game-over")[0];
+  var zeldaGameOver = $("#zelda-game-over")[0];
+  var pokemonGameOver = $("#pokemon-game-over")[0];
+
+  if (userTheme === "mario"){
+    marioGameOver.play();
+    sailorMoonGameOver.pause();
+    castlevaniaGameOver.pause();
+    zeldaGameOver.pause();
+    pokemonGameOver.pause();
+  } else if (userTheme === "sailorMoon"){
+    marioGameOver.pause();
+    sailorMoonGameOver.play();
+    castlevaniaGameOver.pause();
+    zeldaGameOver.pause();
+    pokemonGameOver.pause();
+  } else if (userTheme === "castlevania"){
+    marioGameOver.pause();
+    sailorMoonGameOver.pause();
+    castlevaniaGameOver.play();
+    zeldaGameOver.pause();
+    pokemonGameOver.pause();
+  } else if (userTheme === "zelda1"){
+    marioGameOver.pause();
+    sailorMoonGameOver.pause();
+    castlevaniaGameOver.pause();
+    zeldaGameOver.play();
+    pokemonGameOver.pause();
+  } else if (userTheme === "zelda2"){
+    marioGameOver.pause();
+    sailorMoonGameOver.pause();
+    castlevaniaGameOver.pause();
+    zeldaGameOver.play();
+    pokemonGameOver.pause();
+  } else if (userTheme === "zelda3"){
+    marioGameOver.pause();
+    sailorMoonGameOver.pause();
+    castlevaniaGameOver.pause();
+    zeldaGameOver.play();
+    pokemonGameOver.pause();
+  } else if (userTheme === "pokemon"){
+    marioGameOver.pause();
+    sailorMoonGameOver.pause();
+    castlevaniaGameOver.pause();
+    zeldaGameOver.pause();
+    pokemonGameOver.play();
+  } else {
+    marioGameOver.pause();
+    sailorMoonGameOver.pause();
+    castlevaniaGameOver.pause();
+    zeldaGameOver.pause();
+    pokemonGameOver.pause();
+  }
+}
+
 $(document).ready(function() {
 
 //grabs user input for themes and changes background/font/music accordingly
+    var userThemeChoice = "";
+    var marioAudio = $("#mario")[0];
+    var sailorMoonAudio = $("#sailorMoon")[0];
+    var castlevaniaAudio = $("#castlevania")[0];
+    var zelda1Audio = $("#zelda1")[0];
+    var zelda2Audio = $("#zelda2")[0];
+    var zelda3Audio = $("#zelda3")[0];
+    var pokemonAudio = $("#pokemon")[0];
   $("select#themes").change(function(){
-    var userThemeChoice = $("#themes").val();
+    userThemeChoice = $("#themes").val();
+    $("body").removeClass();
+    $("h1").removeClass();
     console.log(userThemeChoice);
-    if (userThemeChoice === "Mario"){
+    if (userThemeChoice === "mario"){
       $("body").addClass("marioBackground");
       $("h1").addClass("marioText");
-    } else if (userThemeChoice === "Sailor Moon"){
+      marioAudio.play();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.pause();
+      zelda1Audio.pause();
+      zelda2Audio.pause();
+      zelda3Audio.pause();
+      pokemonAudio.pause();
+    } else if (userThemeChoice === "sailorMoon"){
       $("body").addClass("sailorMoonBackground");
       $("h1").addClass("sailorMoonText");
-    } else if (userThemeChoice === "Castlevania") {
+      marioAudio.pause();
+      sailorMoonAudio.play();
+      castlevaniaAudio.pause();
+      zelda1Audio.pause();
+      zelda2Audio.pause();
+      zelda3Audio.pause();
+      pokemonAudio.pause();
+    } else if (userThemeChoice === "castlevania") {
       $("body").addClass("castlevaniaBackground");
       $("h1").addClass("castlevaniaText");
-    } else if (userThemeChoice === "Legend of Zelda 1"){
+      marioAudio.pause();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.play();
+      zelda1Audio.pause();
+      zelda2Audio.pause();
+      zelda3Audio.pause();
+      pokemonAudio.pause();
+    } else if (userThemeChoice === "zelda1"){
       $("body").addClass("zelda1Background");
       $("h1").addClass("zelda1Text");
-    } else if (userThemeChoice === "Legend of Zelda 2"){
+      marioAudio.pause();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.pause();
+      zelda1Audio.play();
+      zelda2Audio.pause();
+      zelda3Audio.pause();
+      pokemonAudio.pause();
+    } else if (userThemeChoice === "zelda2"){
       $("body").addClass("zelda2Background");
       $("h1").addClass("zelda2Text");
-    } else if (userThemeChoice === "Legend of Zelda 3"){
+      marioAudio.pause();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.pause();
+      zelda1Audio.pause();
+      zelda2Audio.play();
+      zelda3Audio.pause();
+      pokemonAudio.pause();
+    } else if (userThemeChoice === "zelda3"){
       $("body").addClass("zelda3Background");
       $("h1").addClass("zelda3Text");
-    } else if (userThemeChoice === "Pokemon"){
+      marioAudio.pause();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.pause();
+      zelda1Audio.pause();
+      zelda2Audio.pause();
+      zelda3Audio.play();
+      pokemonAudio.pause();
+    } else if (userThemeChoice === "pokemon"){
       $("body").addClass("pokemonBackground");
       $("h1").addClass("pokemonText");
+      marioAudio.pause();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.pause();
+      zelda1Audio.pause();
+      zelda2Audio.pause();
+      zelda3Audio.pause();
+      pokemonAudio.play();
     } else {
       $("body").removeClass();
       $("h1").removeClass();
+      marioAudio.pause();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.pause();
+      zelda1Audio.pause();
+      zelda2Audio.pause();
+      zelda3Audio.pause();
+      pokemonAudio.pause();
     }
   });
 
@@ -332,9 +458,19 @@ $(document).ready(function() {
         snakeGuy.gameOver(canvasWidth, canvasHeight);
         if(snakeGuy.gameEnd) {
           stopRecursion.stop = false;
-          intervalCounter++;
-          flashingText(ctx, stopRecursion, intervalCounter);
+          // Adds flashing Game Over text
+          flashingText(ctx, stopRecursion);
           restart = true;
+          //pauses game audio
+          marioAudio.pause();
+          sailorMoonAudio.pause();
+          castlevaniaAudio.pause();
+          zelda1Audio.pause();
+          zelda2Audio.pause();
+          zelda3Audio.pause();
+          pokemonAudio.pause();
+          //starts game over audio
+          gameOverAudio(userThemeChoice);
         } else {
           window.requestAnimationFrame(step);
         }
