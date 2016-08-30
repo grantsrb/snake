@@ -59,18 +59,22 @@ $(document).ready(function() {
   $(document.body).on('keydown', function onkeypress(key) {
     console.log(key.keyCode);
     switch(key.keyCode) {
+      case 83:
       case 75:
         if (preventKeyChange != 'down')
           lastKey = 'down';
         break;
+      case 65:
       case 74:
         if (preventKeyChange != 'left')
           lastKey = 'left';
         break;
+      case 87:
       case 73:
         if(preventKeyChange != 'up')
           lastKey = 'up';
         break;
+      case 68:
       case 76:
         if (preventKeyChange != 'right')
           lastKey = 'right';
