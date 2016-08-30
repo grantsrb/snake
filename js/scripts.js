@@ -141,31 +141,95 @@ $(document).ready(function() {
 //grabs user input for themes and changes background/font/music accordingly
   $("select#themes").change(function(){
     var userThemeChoice = $("#themes").val();
+    var marioAudio = $("#mario")[0];
+    var sailorMoonAudio = $("#sailorMoon")[0];
+    var castlevaniaAudio = $("#castlevania")[0];
+    var zelda1Audio = $("#zelda1")[0];
+    var zelda2Audio = $("#zelda2")[0];
+    var zelda3Audio = $("#zelda3")[0];
+    var pokemonAudio = $("#pokemon")[0];
+
     console.log(userThemeChoice);
-    if (userThemeChoice === "Mario"){
+    if (userThemeChoice === "mario"){
       $("body").addClass("marioBackground");
       $("h1").addClass("marioText");
-    } else if (userThemeChoice === "Sailor Moon"){
+      marioAudio.play();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.pause();
+      zelda1Audio.pause();
+      zelda2Audio.pause();
+      zelda3Audio.pause();
+      pokemonAudio.pause();
+    } else if (userThemeChoice === "sailorMoon"){
       $("body").addClass("sailorMoonBackground");
       $("h1").addClass("sailorMoonText");
-    } else if (userThemeChoice === "Castlevania") {
+      marioAudio.pause();
+      sailorMoonAudio.play();
+      castlevaniaAudio.pause();
+      zelda1Audio.pause();
+      zelda2Audio.pause();
+      zelda3Audio.pause();
+      pokemonAudio.pause();
+    } else if (userThemeChoice === "castlevania") {
       $("body").addClass("castlevaniaBackground");
       $("h1").addClass("castlevaniaText");
-    } else if (userThemeChoice === "Legend of Zelda 1"){
+      marioAudio.pause();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.play();
+      zelda1Audio.pause();
+      zelda2Audio.pause();
+      zelda3Audio.pause();
+      pokemonAudio.pause();
+    } else if (userThemeChoice === "zelda1"){
       $("body").addClass("zelda1Background");
       $("h1").addClass("zelda1Text");
-    } else if (userThemeChoice === "Legend of Zelda 2"){
+      marioAudio.pause();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.pause();
+      zelda1Audio.play();
+      zelda2Audio.pause();
+      zelda3Audio.pause();
+      pokemonAudio.pause();
+    } else if (userThemeChoice === "zelda2"){
       $("body").addClass("zelda2Background");
       $("h1").addClass("zelda2Text");
-    } else if (userThemeChoice === "Legend of Zelda 3"){
+      marioAudio.pause();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.pause();
+      zelda1Audio.pause();
+      zelda2Audio.play();
+      zelda3Audio.pause();
+      pokemonAudio.pause();
+    } else if (userThemeChoice === "zelda3"){
       $("body").addClass("zelda3Background");
       $("h1").addClass("zelda3Text");
-    } else if (userThemeChoice === "Pokemon"){
+      marioAudio.pause();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.pause();
+      zelda1Audio.pause();
+      zelda2Audio.pause();
+      zelda3Audio.play();
+      pokemonAudio.pause();
+    } else if (userThemeChoice === "pokemon"){
       $("body").addClass("pokemonBackground");
       $("h1").addClass("pokemonText");
+      marioAudio.pause();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.pause();
+      zelda1Audio.pause();
+      zelda2Audio.pause();
+      zelda3Audio.pause();
+      pokemonAudio.play();
     } else {
       $("body").removeClass();
       $("h1").removeClass();
+      marioAudio.pause();
+      sailorMoonAudio.pause();
+      castlevaniaAudio.pause();
+      zelda1Audio.pause();
+      zelda2Audio.pause();
+      zelda3Audio.pause();
+      pokemonAudio.pause();
     }
   });
 

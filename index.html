@@ -17,14 +17,14 @@
         <div class="col-md-2" id="leftColumn">
           <h2>Themes:</h2>
           <select class="form-control" id="themes">
-            <option>None</option>
-            <option>Mario</option>
-            <option>Sailor Moon</option>
-            <option>Castlevania</option>
-            <option>Legend of Zelda 1</option>
-            <option>Legend of Zelda 2</option>
-            <option>Legend of Zelda 3</option>
-            <option>Pokemon</option>
+            <option value="none">None</option>
+            <option value="mario">Mario</option>
+            <option value="sailorMoon">Sailor Moon</option>
+            <option value="castlevania">Castlevania</option>
+            <option value="zelda1">Legend of Zelda 1</option>
+            <option value="zelda2">Legend of Zelda 2</option>
+            <option value="zelda3">Legend of Zelda 3</option>
+            <option value="pokemon">Pokemon</option>
           </select>
           <div class="checkbox">
             <input type="checkbox" name="orange" id="orange">
@@ -70,6 +70,47 @@
             <li>description about what each color/item will do to the snake</li>
           </ul>
         </div>
+        <audio loop="loop" id="mario">
+          <source src="audio/mario-theme.mp3" type="audio/mpeg">
+        </audio>
+        <audio loop="loop" id="sailorMoon">
+          <source src="audio/sailor-moon-theme.mp3" type="audio/mpeg">
+        </audio>
+        <audio loop="loop" id="castlevania">
+          <source src="audio/castlevania-theme.mp3" type="audio/mpeg">
+        </audio>
+        <audio loop="loop" id="zelda1">
+          <source src="audio/zelda-woods.mp3" type="audio/mpeg">
+        </audio>
+        <audio loop="loop" id="zelda2">
+          <source src="audio/zelda-water.mp3" type="audio/mpeg">
+        </audio>
+        <audio loop="loop" id="zelda3">
+          <source src="audio/zelda-dino.mp3" type="audio/mpeg">
+        </audio>
+        <audio loop="loop" id="pokemon">
+          <source src="audio/pokemon-theme.mp3" type="audio/mpeg">
+        </audio>
+
+        <audio loop="loop" id="pokemon-game-over">
+          <source src="audio/pokemon-game-over.mp3" type="audio/mpeg">
+        </audio>
+        <audio loop="loop" id="zelda-game-over">
+          <source src="audio/zelda-game-over.mp3" type="audio/mpeg">
+        </audio>
+        <audio loop="loop" id="castlevania-game-over">
+          <source src="audio/castlevania-game-over.mp3" type="audio/mpeg">
+        </audio>
+        <audio loop="loop" id="sailor-moon-game-over">
+          <source src="audio/sailor-moon-game-over.mp3" type="audio/mpeg">
+        </audio>
+        <audio loop="loop" id="mario-game-over">
+          <source src="audio/mario-game-over.mp3" type="audio/mpeg">
+        </audio>
+
+        <audio loop="loop" id="test">
+          <source src="audio/test.mp3" type="audio/mpeg">
+        </audio>
       </div>
     </div>
   </body>
