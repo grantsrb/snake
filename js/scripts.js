@@ -14,6 +14,7 @@ SnakeBit.prototype.updateBit = function() {
 function Snake(context, xStart, yStart, squareSizeIn) {
   this.initialX = xStart;
   this.initialY = yStart;
+  this.bitSquareSize = squareSizeIn;
   context.fillStyle = 'black';
   context.beginPath();
   var headBit = new SnakeBit(this.initialX,this.initialY, context, squareSizeIn);
@@ -24,6 +25,7 @@ function Snake(context, xStart, yStart, squareSizeIn) {
   }
   context.stroke();
   this.snakeSpeed = 50;
+  this.orange = false;
   this.gameEnd = false;
   this.score = 0;
 }
@@ -52,11 +54,25 @@ Snake.prototype.gameOver = function(canvasWidth, canvasHeight) {
     this.gameEnd = true;
   }
 }
-Snake.prototype.changeProperty = function(color) {
+Snake.prototype.changeProperty = function(color, context) {
   this.snakeSpeed = 50;
+  if(this.orange == true) {
+    for (var i = 1; i < 6; i++) {
+      this.bits.pop();
+    }
+    this.orange = false;
+  }
   switch (color) {
     case 'red':
       this.snakeSpeed = 10;
+      break;
+    case 'orange':
+      this.orange = true;
+      for (var i = 1; i < 6; i++) {
+        var tailBit = new SnakeBit(this.bits[2].xc,this.bits[2].yc, context, this.bitSquareSize);
+        this.bits.push(tailBit);
+      }
+      break;
   }
 }
 
@@ -183,7 +199,7 @@ $(document).ready(function() {
       }
       //generates new item placement when snake consumes item
       if(snakeGuy.bits[0].xc === itemX  && snakeGuy.bits[0].yc === itemY) {
-        snakeGuy.changeProperty(itemColor);
+        snakeGuy.changeProperty(itemColor, ctx);
         snakeColor = itemColor;
         itemColor = Math.floor(Math.random()*5);
         if (itemColor == 0) {
