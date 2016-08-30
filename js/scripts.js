@@ -57,20 +57,21 @@ Snake.prototype.gameOver = function() {
 $(document).ready(function() {
 //receives user input
   $(document.body).on('keydown', function onkeypress(key) {
+    console.log(key.keyCode);
     switch(key.keyCode) {
-      case 40:
+      case 75:
         if (preventKeyChange != 'down')
           lastKey = 'down';
         break;
-      case 37:
+      case 74:
         if (preventKeyChange != 'left')
           lastKey = 'left';
         break;
-      case 38:
+      case 73:
         if(preventKeyChange != 'up')
           lastKey = 'up';
         break;
-      case 39:
+      case 76:
         if (preventKeyChange != 'right')
           lastKey = 'right';
         break;
@@ -81,7 +82,7 @@ $(document).ready(function() {
   var c = document.getElementById('canvas');
   var ctx = c.getContext('2d');
   var lastKey = 'right';
-  var gameSpeed = 500;
+  var gameSpeed = 50;
   var prevTimestamp = null;
   var preventKeyChange = 'left';
 
