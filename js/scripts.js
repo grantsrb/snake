@@ -121,6 +121,7 @@ $(document).ready(function() {
   var yStart = 300;
 
 //creates snake object and initial images
+  var snakeColor = "black";
   var snakeGuy = new Snake(ctx, xStart, yStart, bitSquareSize);
   snakeGuy.bits[0].xc += 10;
   snakeGuy.updateBits();
@@ -147,7 +148,7 @@ $(document).ready(function() {
         ctx.fillStyle = itemColor;
         ctx.fillRect(itemX, itemY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
         // snakebit color
-        ctx.fillStyle = "black";
+        ctx.fillStyle = snakeColor;
         ctx.beginPath();
 
         //transforms user input into snake movement direction
@@ -175,9 +176,10 @@ $(document).ready(function() {
       }
       //generates new item placement when snake consumes item
       if(snakeGuy.bits[0].xc === itemX  && snakeGuy.bits[0].yc === itemY) {
+        snakeColor = itemColor;
         itemColor = Math.floor(Math.random()*5);
         if (itemColor == 0) {
-          itemColor = 'yellow';
+          itemColor = 'orange';
         } else if (itemColor == 1) {
           itemColor = 'green';
         } else if (itemColor == 2) {
@@ -187,8 +189,16 @@ $(document).ready(function() {
         } else {
           itemColor = 'black';
         }
-        itemX = Math.floor((Math.random()*canvasWidth)/10)*10;
-        itemY = Math.floor((Math.random()*canvasHeight)/10)*10;
+        var bitFree = true;
+        do {
+          itemX = Math.floor((Math.random()*canvasWidth)/10)*10;
+          itemY = Math.floor((Math.random()*canvasHeight)/10)*10;
+          for (var i = 0; i < snakeGuy.bits.length; i++) {
+            if(snakeGuy.bits[i].xc === itemX && snakeGuy.bits[i].yc === itemY) {
+              bitFree = false;
+            }
+          }
+        } while(!bitFree);
 
         snakeGuy.snakeBite(ctx, bitSquareSize);
         snakeGuy.score += 10;
