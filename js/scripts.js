@@ -19,7 +19,7 @@ function Snake(context, xStart, yStart, squareSizeIn) {
   context.beginPath();
   var headBit = new SnakeBit(this.initialX,this.initialY, context, squareSizeIn);
   this.bits = [headBit];
-  for (var i = 1; i < 6; i++) {
+  for (var i = 0; i < 5; i++) {
     var tailBit = new SnakeBit(this.initialX-(10*i),this.initialY, context, squareSizeIn);
     this.bits.push(tailBit);
   }
@@ -102,31 +102,36 @@ Snake.prototype.changeProperty = function(color, context) {
 }
 
 //Game Over Flashing Text function -- added by JA
-function flashingText(context){
+function flashingText(context, stopRecursion, intervalCounter){
   var count = 200;
-  timer = setInterval(function(){
+  var timer = setInterval(function(){
     count --;
-    if (count%2 == 1){
-      context.clearRect(0, 0, 800, 600);
-      context.font = "80px Monoton";
-      context.fillStyle = "red";
-      context.textAlign = "center";
-      context.fillText("GAME OVER", 400, 300);
-      $("canvas").css('background-color', 'black');
-    }
-    else{
-      context.clearRect(0, 0, 800, 600);
-      context.font = "80px Monoton";
-      context.fillStyle = "white";
-      context.textAlign = "center";
-      context.fillText("GAME OVER", 400, 300);
-      $("canvas").css('background-color', 'black');
+    if (!stopRecursion.stop) {
+      console.log(intervalCounter);
+      if (count%2 == 1){
+        context.clearRect(0, 0, 800, 600);
+        context.font = "80px Monoton";
+        context.fillStyle = "red";
+        context.textAlign = "center";
+        context.fillText("GAME OVER", 400, 300);
+        $("canvas").css('background-color', 'black');
+      }
+      else{
+        context.clearRect(0, 0, 800, 600);
+        context.font = "80px Monoton";
+        context.fillStyle = "white";
+        context.textAlign = "center";
+        context.fillText("GAME OVER", 400, 300);
+        $("canvas").css('background-color', 'black');
+      }
+    } else {
+      clearInterval(timer);
     }
   }, 200);
 }
 // parses information from checkboxes
 function parseColors(powerChoicesIn) {
-  var colorChoicesOut = [[true, true, true, true, true], ['orange','green','blue','red','star']];
+  var colorChoicesOut = [[false, false, false, false, false], ['orange','green','blue','red','star']];
   for (var i = 0; i < powerChoicesIn.length; i++) {
     for (var j = 0; j < colorChoicesOut[1].length; j++) {
       if (powerChoicesIn[i] == colorChoicesOut[1][j]) {
@@ -172,7 +177,6 @@ $(document).ready(function() {
 
 //receives user input
   $(document.body).on('keydown', function onkeypress(key) {
-    console.log(key.keyCode);
     switch(key.keyCode) {
       case 83:
       case 75:
@@ -196,132 +200,145 @@ $(document).ready(function() {
         break;
     }
   });
-
-//declares initial game variables
-  var c = document.getElementById('canvas');
-  var ctx = c.getContext('2d');
-  var canvasWidth = 800;
-  var canvasHeight = 600;
   var lastKey = 'right';
-  var prevTimestamp = null;
+  var restart = true;
   var preventKeyChange = 'left';
-  var bitSquareSize = 9;
-  var xStart = 100;
-  var yStart = 300;
-
-//creates snake object and initial images
-  var colorCounter = 0;
-  var colorsArray = ['red', 'blue', 'orange', 'green'];
-  var snakeColor = "black";
-  var snakeGuy = new Snake(ctx, xStart, yStart, bitSquareSize);
-  snakeGuy.bits[0].xc += 10;
-  snakeGuy.updateBits();
-  ctx.fillRect(xStart, yStart, bitSquareSize, bitSquareSize);
-
-  //creates initial coordinates for item
-  var itemX = Math.floor((Math.random()*canvasWidth)/10)*10;
-  var itemY = Math.floor((Math.random()*canvasHeight)/10)*10;
-  var itemColor = 'black';
-  ctx.fillRect(itemX, itemY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
-
+  var stopRecursion = {
+    stop : false
+  };
+  var intervalCounter = 0;
 //initiates and maintains frame updates
-  $("#canvas").click(function() {
-    var powerChoices = [];
-    // $('input:checkbox[name=powerups]:checked').each(function(){
-    //   powerChoices.push(this.value);
-    // });
-    var colorChoices = parseColors(powerChoices);
-    var initialCounter = 0;
-    window.requestAnimationFrame(function step(timestamp) {
-      $(".showScore").text(snakeGuy.score);
-      if(timestamp > prevTimestamp + snakeGuy.snakeSpeed) {
-        initialCounter++;
-        prevTimestamp = timestamp;
-        // canvas color
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0,0,c.clientWidth,c.clientHeight);
-        // item color
-        if (itemColor == 'star') {
-          ctx.fillStyle = colorsArray[colorCounter%4];
-          colorCounter++;
-        } else {
-          ctx.fillStyle = itemColor;
-        }
-        ctx.fillRect(itemX, itemY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
-        // snakebit color
-        if (snakeGuy.bitColor == 'star'){
-          snakeColor = colorsArray[colorCounter%4];
-          colorCounter++;
-        }
-        ctx.fillStyle = snakeColor;
-        ctx.beginPath();
+  $("body").on("keydown", function(key) {
+    stopRecursion.stop = true;
+    if (restart == true){
+      restart = false;
 
-        //transforms user input into snake movement direction
-        if (lastKey == 'left') {
-          preventKeyChange = 'right';
-          snakeGuy.bits[0].xc -= 10;
-          snakeGuy.updateBits();
-          ctx.stroke();
-        } else if (lastKey == 'right') {
-          preventKeyChange = 'left';
-          snakeGuy.bits[0].xc += 10;
-          snakeGuy.updateBits();
-          ctx.stroke();
-        }  else if (lastKey == 'down') {
-          preventKeyChange = 'up';
-          snakeGuy.bits[0].yc += 10;
-          snakeGuy.updateBits();
-          ctx.stroke();
-        }  else if (lastKey == 'up') {
-          preventKeyChange = 'down';
-          snakeGuy.bits[0].yc -= 10;
-          snakeGuy.updateBits();
-          ctx.stroke();
-        }
-      }
-      //generates new item placement when snake consumes item
-      if(snakeGuy.bits[0].xc === itemX  && snakeGuy.bits[0].yc === itemY) {
-        snakeGuy.changeProperty(itemColor, ctx);
-        snakeColor = itemColor;
-        itemColor = Math.floor(Math.random()*6);
-        if (itemColor == 0 && colorChoices[0][0]) {
-          itemColor = 'orange';
-        } else if (itemColor == 1 && colorChoices[0][1]) {
-          itemColor = 'green';
-        } else if (itemColor == 2 && colorChoices[0][2]) {
-          itemColor = 'blue';
-        } else if (itemColor == 3 && colorChoices[0][3]) {
-          itemColor = 'red';
-        } else if (itemColor == 4 && colorChoices[0][4]) {
-          itemColor = 'star';
-        } else {
-          itemColor = 'black';
-        }
-        var spaceFree = true;
-        do {
-          itemX = Math.floor((Math.random()*canvasWidth)/10)*10;
-          itemY = Math.floor((Math.random()*canvasHeight)/10)*10;
-          for (var i = 0; i < snakeGuy.bits.length; i++) {
-            if(snakeGuy.bits[i].xc === itemX && snakeGuy.bits[i].yc === itemY) {
-              spaceFree = false;
-            }
+      //declares initial game variables
+      var c = document.getElementById('canvas');
+      var ctx = c.getContext('2d');
+      var canvasWidth = 800;
+      var canvasHeight = 600;
+      var prevTimestamp = null;
+      var bitSquareSize = 9;
+      var xStart = 100;
+      var yStart = 300;
+
+      // Blank screen
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0,0,c.clientWidth,c.clientHeight);
+
+      //creates snake object and initial images
+      var colorCounter = 0;
+      var colorsArray = ['red', 'blue', 'orange', 'green'];
+      var snakeColor = "black";
+      var snakeGuy = new Snake(ctx, xStart, yStart, bitSquareSize);
+      snakeGuy.bits[0].xc += 10;
+      snakeGuy.updateBits();
+
+      //creates initial coordinates for item
+      var itemX = Math.floor((Math.random()*canvasWidth)/10)*10;
+      var itemY = Math.floor((Math.random()*canvasHeight)/10)*10;
+      var itemColor = 'black';
+      ctx.fillRect(itemX, itemY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
+
+      // Receive checkbox information
+      var powerChoices = [];
+      $('input:checkbox[name=powerups]:checked').each(function(){
+        powerChoices.push(this.value);
+      });
+      var colorChoices = parseColors(powerChoices);
+
+      // Animation function
+      window.requestAnimationFrame(function step(timestamp) {
+        $(".showScore").text(snakeGuy.score);
+        if(timestamp > prevTimestamp + snakeGuy.snakeSpeed) {
+
+          prevTimestamp = timestamp;
+          // canvas color
+          ctx.fillStyle = 'white';
+          ctx.fillRect(0,0,c.clientWidth,c.clientHeight);
+          // item color
+          if (itemColor == 'star') {
+            ctx.fillStyle = colorsArray[colorCounter%4];
+            colorCounter++;
+          } else {
+            ctx.fillStyle = itemColor;
           }
-        } while(!spaceFree);
-        snakeGuy.snakeBite(ctx, bitSquareSize);
-        snakeGuy.score += 10;
-      }
-      //fixes white space in snake body during the beginning of the game
-      if (initialCounter < snakeGuy.bits.length-2) {
-        ctx.fillRect(snakeGuy.initialX, snakeGuy.initialY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
-      }
-      //ends game if game ending conditions are true
-      snakeGuy.gameOver(canvasWidth, canvasHeight);
-      if(snakeGuy.gameEnd) {
-        // Added by JA
-        flashingText(ctx);
-      } else {
-        window.requestAnimationFrame(step);
-      }
-    });
+          ctx.fillRect(itemX, itemY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
+          // snakebit color
+          if (snakeGuy.bitColor == 'star'){
+            snakeColor = colorsArray[colorCounter%4];
+            colorCounter++;
+          }
+          ctx.fillStyle = snakeColor;
+          ctx.beginPath();
+
+          //transforms user input into snake movement direction
+          if (lastKey == 'left') {
+            preventKeyChange = 'right';
+            snakeGuy.bits[0].xc -= 10;
+            snakeGuy.updateBits();
+            ctx.stroke();
+          } else if (lastKey == 'right') {
+            preventKeyChange = 'left';
+            snakeGuy.bits[0].xc += 10;
+            snakeGuy.updateBits();
+            ctx.stroke();
+          }  else if (lastKey == 'down') {
+            preventKeyChange = 'up';
+            snakeGuy.bits[0].yc += 10;
+            snakeGuy.updateBits();
+            ctx.stroke();
+          }  else if (lastKey == 'up') {
+            preventKeyChange = 'down';
+            snakeGuy.bits[0].yc -= 10;
+            snakeGuy.updateBits();
+            ctx.stroke();
+          }
+        }
+        //generates new item placement when snake consumes item
+        if(snakeGuy.bits[0].xc === itemX  && snakeGuy.bits[0].yc === itemY) {
+          snakeGuy.changeProperty(itemColor, ctx);
+          snakeColor = itemColor;
+          itemColor = Math.floor(Math.random()*6);
+          if (itemColor == 0 && colorChoices[0][0]) {
+            itemColor = 'orange';
+          } else if (itemColor == 1 && colorChoices[0][1]) {
+            itemColor = 'green';
+          } else if (itemColor == 2 && colorChoices[0][2]) {
+            itemColor = 'blue';
+          } else if (itemColor == 3 && colorChoices[0][3]) {
+            itemColor = 'red';
+          } else if (itemColor == 4 && colorChoices[0][4]) {
+            itemColor = 'star';
+          } else {
+            itemColor = 'black';
+          }
+          var spaceFree = true;
+          do {
+            itemX = Math.floor((Math.random()*canvasWidth)/10)*10;
+            itemY = Math.floor((Math.random()*canvasHeight)/10)*10;
+            for (var i = 0; i < snakeGuy.bits.length; i++) {
+              if(snakeGuy.bits[i].xc === itemX && snakeGuy.bits[i].yc === itemY) {
+                spaceFree = false;
+              }
+            }
+          } while(!spaceFree);
+          snakeGuy.snakeBite(ctx, bitSquareSize);
+          snakeGuy.score += 10;
+        }
+
+        //ends game if game ending conditions are true
+        snakeGuy.gameOver(canvasWidth, canvasHeight);
+        if(snakeGuy.gameEnd) {
+          stopRecursion.stop = false;
+          intervalCounter++;
+          flashingText(ctx, stopRecursion, intervalCounter);
+          restart = true;
+        } else {
+          window.requestAnimationFrame(step);
+        }
+      });
+    }
   });
 });
