@@ -79,6 +79,35 @@ function flashingText(context){
 
 
 $(document).ready(function() {
+  $("select#themes").change(function(){
+    var userThemeChoice = $("#themes").val();
+    console.log(userThemeChoice);
+    if (userThemeChoice === "Mario"){
+      $("body").addClass("marioBackground");
+      $("h1").addClass("marioText");
+    } else if (userThemeChoice === "Sailor Moon"){
+      $("body").addClass("sailorMoonBackground");
+      $("h1").addClass("sailorMoonText");
+    } else if (userThemeChoice === "Castlevania") {
+      $("body").addClass("castlevaniaBackground");
+      $("h1").addClass("castlevaniaText");
+    } else if (userThemeChoice === "Legend of Zelda 1"){
+      $("body").addClass("zelda1Background");
+      $("h1").addClass("zelda1Text");
+    } else if (userThemeChoice === "Legend of Zelda 2"){
+      $("body").addClass("zelda2Background");
+      $("h1").addClass("zelda2Text");
+    } else if (userThemeChoice === "Legend of Zelda 3"){
+      $("body").addClass("zelda3Background");
+      $("h1").addClass("zelda3Text");
+    } else if (userThemeChoice === "Pokemon"){
+      $("body").addClass("pokemonBackground");
+      $("h1").addClass("pokemonText");
+    } else {
+      $("body").removeClass();
+      $("h1").removeClass();
+    }
+  })
 //receives user input
   $(document.body).on('keydown', function onkeypress(key) {
     console.log(key.keyCode);
