@@ -25,7 +25,7 @@ function Snake(context, xStart, yStart, squareSizeIn) {
   }
   context.stroke();
   this.snakeSpeed = 50;
-  this.orange = false;
+  this.bitColor = 'black';
   this.gameEnd = false;
   this.score = 0;
 }
@@ -45,9 +45,11 @@ Snake.prototype.snakeBite = function(context, squareSizeIn) {
 }
 //check for game ending conditions
 Snake.prototype.gameOver = function(canvasWidth, canvasHeight) {
-  for (var i = 2; i < this.bits.length; i++) {
-    if(this.bits[0].xc === this.bits[i].xc && this.bits[0].yc === this.bits[i].yc) {
-      this.gameEnd = true;
+  if(this.bitColor !== 'blue') {
+    for (var i = 2; i < this.bits.length; i++) {
+      if(this.bits[0].xc === this.bits[i].xc && this.bits[0].yc === this.bits[i].yc) {
+        this.gameEnd = true;
+      }
     }
   }
   if(this.bits[0].xc >= canvasWidth || this.bits[0].xc < 0 || this.bits[0].yc >= canvasHeight || this.bits[0].yc < 0) {
@@ -56,23 +58,26 @@ Snake.prototype.gameOver = function(canvasWidth, canvasHeight) {
 }
 Snake.prototype.changeProperty = function(color, context) {
   this.snakeSpeed = 50;
-  if(this.orange == true) {
+  if(this.bitColor == 'orange') {
     for (var i = 1; i < 6; i++) {
       this.bits.pop();
     }
-    this.orange = false;
   }
+  this.bitColor = color;
   switch (color) {
     case 'red':
       this.snakeSpeed = 10;
       break;
     case 'orange':
-      this.orange = true;
       for (var i = 1; i < 6; i++) {
         var tailBit = new SnakeBit(this.bits[2].xc,this.bits[2].yc, context, this.bitSquareSize);
         this.bits.push(tailBit);
       }
       break;
+    case 'green':
+      this.score += 50;
+      break;
+    case 'blue':
   }
 }
 
