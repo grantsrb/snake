@@ -79,6 +79,8 @@ function flashingText(context){
 
 
 $(document).ready(function() {
+
+//grabs user input for themes and changes background/font/music accordingly
   $("select#themes").change(function(){
     var userThemeChoice = $("#themes").val();
     console.log(userThemeChoice);
@@ -107,7 +109,9 @@ $(document).ready(function() {
       $("body").removeClass();
       $("h1").removeClass();
     }
-  })
+  });
+
+
 //receives user input
   $(document.body).on('keydown', function onkeypress(key) {
     console.log(key.keyCode);
