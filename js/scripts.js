@@ -45,16 +45,7 @@ Snake.prototype.snakeBite = function(context, squareSizeIn) {
 }
 //check for game ending conditions
 Snake.prototype.gameOver = function(canvasWidth, canvasHeight) {
-  if(this.bitColor !== 'blue') {
-    for (var i = 2; i < this.bits.length; i++) {
-      if(this.bits[0].xc === this.bits[i].xc && this.bits[0].yc === this.bits[i].yc) {
-        this.gameEnd = true;
-      }
-    }
-    if(this.bits[0].xc >= canvasWidth || this.bits[0].xc < 0 || this.bits[0].yc >= canvasHeight || this.bits[0].yc < 0) {
-      this.gameEnd = true;
-    }
-  } else {
+  if(this.bitColor == 'blue' || this.bitColor == 'star') {
     if(this.bits[0].xc >= canvasWidth) {
       this.bits[0].xc -= canvasWidth;
       this.bits[1].xc -= canvasWidth;
@@ -68,12 +59,21 @@ Snake.prototype.gameOver = function(canvasWidth, canvasHeight) {
       this.bits[0].yc += canvasHeight;
       this.bits[1].yc += canvasHeight;
     }
+  } else {
+    for (var i = 2; i < this.bits.length; i++) {
+      if(this.bits[0].xc === this.bits[i].xc && this.bits[0].yc === this.bits[i].yc) {
+        this.gameEnd = true;
+      }
+    }
+    if(this.bits[0].xc >= canvasWidth || this.bits[0].xc < 0 || this.bits[0].yc >= canvasHeight || this.bits[0].yc < 0) {
+      this.gameEnd = true;
+    }
   }
 }
 Snake.prototype.changeProperty = function(color, context) {
   this.snakeSpeed = 50;
-  if(this.bitColor == 'orange') {
-    for (var i = 1; i < 6; i++) {
+  if(this.bitColor == 'orange' || this.bitColor == 'star') {
+    for (var i = 1; i < 11; i++) {
       this.bits.pop();
     }
   }
@@ -83,7 +83,7 @@ Snake.prototype.changeProperty = function(color, context) {
       this.snakeSpeed = 10;
       break;
     case 'orange':
-      for (var i = 1; i < 6; i++) {
+      for (var i = 1; i < 11; i++) {
         var tailBit = new SnakeBit(this.bits[2].xc,this.bits[2].yc, context, this.bitSquareSize);
         this.bits.push(tailBit);
       }
@@ -91,7 +91,13 @@ Snake.prototype.changeProperty = function(color, context) {
     case 'green':
       this.score += 50;
       break;
-    case 'blue':
+    case 'star':
+      this.snakeSpeed = 10;
+      for (var i = 1; i < 11; i++) {
+        var tailBit = new SnakeBit(this.bits[2].xc,this.bits[2].yc, context, this.bitSquareSize);
+        this.bits.push(tailBit);
+      }
+      this.score += 100;
   }
 }
 
@@ -154,7 +160,6 @@ $(document).ready(function() {
   var ctx = c.getContext('2d');
   var canvasWidth = 800;
   var canvasHeight = 600;
-  console.log(canvasWidth);
   var lastKey = 'right';
   var prevTimestamp = null;
   var preventKeyChange = 'left';
@@ -163,6 +168,8 @@ $(document).ready(function() {
   var yStart = 300;
 
 //creates snake object and initial images
+  var colorCounter = 0;
+  var colorsArray = ['red', 'blue', 'orange', 'green'];
   var snakeColor = "black";
   var snakeGuy = new Snake(ctx, xStart, yStart, bitSquareSize);
   snakeGuy.bits[0].xc += 10;
@@ -187,9 +194,18 @@ $(document).ready(function() {
         ctx.fillStyle = 'white';
         ctx.fillRect(0,0,c.clientWidth,c.clientHeight);
         // item color
-        ctx.fillStyle = itemColor;
+        if (itemColor == 'star') {
+          ctx.fillStyle = colorsArray[colorCounter%4];
+          colorCounter++;
+        } else {
+          ctx.fillStyle = itemColor;
+        }
         ctx.fillRect(itemX, itemY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
         // snakebit color
+        if (snakeGuy.bitColor == 'star'){
+          snakeColor = colorsArray[colorCounter%4];
+          colorCounter++;
+        }
         ctx.fillStyle = snakeColor;
         ctx.beginPath();
 
@@ -220,7 +236,7 @@ $(document).ready(function() {
       if(snakeGuy.bits[0].xc === itemX  && snakeGuy.bits[0].yc === itemY) {
         snakeGuy.changeProperty(itemColor, ctx);
         snakeColor = itemColor;
-        itemColor = Math.floor(Math.random()*5);
+        itemColor = Math.floor(Math.random()*6);
         if (itemColor == 0) {
           itemColor = 'orange';
         } else if (itemColor == 1) {
@@ -229,20 +245,21 @@ $(document).ready(function() {
           itemColor = 'blue';
         } else if (itemColor == 3) {
           itemColor = 'red';
+        } else if (itemColor == 4) {
+          itemColor = 'star';
         } else {
           itemColor = 'black';
         }
-        var bitFree = true;
+        var spaceFree = true;
         do {
           itemX = Math.floor((Math.random()*canvasWidth)/10)*10;
           itemY = Math.floor((Math.random()*canvasHeight)/10)*10;
           for (var i = 0; i < snakeGuy.bits.length; i++) {
             if(snakeGuy.bits[i].xc === itemX && snakeGuy.bits[i].yc === itemY) {
-              bitFree = false;
+              spaceFree = false;
             }
           }
-        } while(!bitFree);
-
+        } while(!spaceFree);
         snakeGuy.snakeBite(ctx, bitSquareSize);
         snakeGuy.score += 10;
       }
