@@ -52,6 +52,30 @@ Snake.prototype.gameOver = function(canvasWidth, canvasHeight) {
   }
 }
 
+//Game Over Flashing Text function -- added by JA
+function flashingText(context){
+  var count = 200;
+  timer = setInterval(function(){
+    count --;
+    if (count%2 == 1){
+      context.clearRect(0, 0, 800, 600);
+      context.font = "80px Monoton";
+      context.fillStyle = "red";
+      context.textAlign = "center";
+      context.fillText("GAME OVER", 400, 300);
+      $("canvas").css('background-color', 'black');
+    }
+    else{
+      context.clearRect(0, 0, 800, 600);
+      context.font = "80px Monoton";
+      context.fillStyle = "white";
+      context.textAlign = "center";
+      context.fillText("GAME OVER", 400, 300);
+      $("canvas").css('background-color', 'black');
+    }
+  }, 200);
+  }
+
 
 
 $(document).ready(function() {
@@ -176,11 +200,11 @@ $(document).ready(function() {
       //ends game if game ending conditions are true
       snakeGuy.gameOver(canvasWidth, canvasHeight);
       if(snakeGuy.gameEnd) {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(0,0,c.clientWidth,c.clientHeight);
+        // Added by JA
+        flashingText(ctx);
       } else {
         window.requestAnimationFrame(step);
       }
     });
-  })
+  });
 });
