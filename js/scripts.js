@@ -141,65 +141,7 @@ function parseColors(powerChoicesIn) {
   }
   return colorChoicesOut;
 }
-
-//function to play themed game over audio
-function gameOverAudio(userTheme){
-  var marioGameOver = $("#mario-game-over")[0];
-  var sailorMoonGameOver = $("#sailor-moon-game-over")[0];
-  var castlevaniaGameOver = $("#castlevania-game-over")[0];
-  var zeldaGameOver = $("#zelda-game-over")[0];
-  var pokemonGameOver = $("#pokemon-game-over")[0];
-
-  if (userTheme === "mario"){
-    marioGameOver.play();
-    sailorMoonGameOver.pause();
-    castlevaniaGameOver.pause();
-    zeldaGameOver.pause();
-    pokemonGameOver.pause();
-  } else if (userTheme === "sailorMoon"){
-    marioGameOver.pause();
-    sailorMoonGameOver.play();
-    castlevaniaGameOver.pause();
-    zeldaGameOver.pause();
-    pokemonGameOver.pause();
-  } else if (userTheme === "castlevania"){
-    marioGameOver.pause();
-    sailorMoonGameOver.pause();
-    castlevaniaGameOver.play();
-    zeldaGameOver.pause();
-    pokemonGameOver.pause();
-  } else if (userTheme === "zelda1"){
-    marioGameOver.pause();
-    sailorMoonGameOver.pause();
-    castlevaniaGameOver.pause();
-    zeldaGameOver.play();
-    pokemonGameOver.pause();
-  } else if (userTheme === "zelda2"){
-    marioGameOver.pause();
-    sailorMoonGameOver.pause();
-    castlevaniaGameOver.pause();
-    zeldaGameOver.play();
-    pokemonGameOver.pause();
-  } else if (userTheme === "zelda3"){
-    marioGameOver.pause();
-    sailorMoonGameOver.pause();
-    castlevaniaGameOver.pause();
-    zeldaGameOver.play();
-    pokemonGameOver.pause();
-  } else if (userTheme === "pokemon"){
-    marioGameOver.pause();
-    sailorMoonGameOver.pause();
-    castlevaniaGameOver.pause();
-    zeldaGameOver.pause();
-    pokemonGameOver.play();
-  } else {
-    marioGameOver.pause();
-    sailorMoonGameOver.pause();
-    castlevaniaGameOver.pause();
-    zeldaGameOver.pause();
-    pokemonGameOver.pause();
-  }
-}
+// plays selected music while pausing all others
 function playMusic(songToPlayIndex, songs) {
   for (var i = 0; i < songs[0].length; i++) {
     if(i == songToPlayIndex) {
@@ -223,41 +165,80 @@ $(document).ready(function() {
     $("body").removeClass();
     $("h1").removeClass();
     console.log(userThemeChoice);
-    if (userThemeChoice === "mario"){
-      $("body").addClass("marioBackground");
-      $("h1").addClass("marioText");
-      playMusic(0,musicThemes);
-    } else if (userThemeChoice === "sailorMoon"){
-      $("body").addClass("sailorMoonBackground");
-      $("h1").addClass("sailorMoonText");
-      playMusic(1,musicThemes);
-    } else if (userThemeChoice === "castlevania") {
-      $("body").addClass("castlevaniaBackground");
-      $("h1").addClass("castlevaniaText");
-      playMusic(2,musicThemes);
-    } else if (userThemeChoice === "zelda1"){
-      $("body").addClass("zelda1Background");
-      $("h1").addClass("zelda1Text");
-      playMusic(3,musicThemes);
-    } else if (userThemeChoice === "zelda2"){
-      $("body").addClass("zelda2Background");
-      $("h1").addClass("zelda2Text");
-      playMusic(4,musicThemes);
-    } else if (userThemeChoice === "zelda3"){
-      $("body").addClass("zelda3Background");
-      $("h1").addClass("zelda3Text");
-      playMusic(5,musicThemes);
-    } else if (userThemeChoice === "pokemon"){
-      $("body").addClass("pokemonBackground");
-      $("h1").addClass("pokemonText");
-      playMusic(6,musicThemes);
-    } else {
-      $("body").removeClass();
-      $("h1").removeClass();
-      playMusic(null,musicThemes);
+    for (var i = 0; i < musicThemes[1].length; i++) {
+      if (userThemeChoice == musicThemes[1][i]) {
+        console.log('userTheme: ' + userThemeChoice + ' ' + i);
+        $("body").addClass(musicThemes[1][i] + "Background");
+        $("h1").addClass(musicThemes[1][i] + "Text");
+        playMusic(i,musicThemes);
+        break;
+      } else {
+        console.log('userTheme: ' + userThemeChoice + ' ' + i + 'else');
+        $("body").removeClass();
+        $("h1").removeClass();
+        playMusic(null,musicThemes);
+      }
     }
   });
 
+  //function to play themed game over audio
+  function gameOverAudio(userTheme){
+    var marioGameOver = $("#mario-game-over")[0];
+    var sailorMoonGameOver = $("#sailor-moon-game-over")[0];
+    var castlevaniaGameOver = $("#castlevania-game-over")[0];
+    var zeldaGameOver = $("#zelda-game-over")[0];
+    var pokemonGameOver = $("#pokemon-game-over")[0];
+
+    if (userTheme === "mario"){
+      marioGameOver.play();
+      sailorMoonGameOver.pause();
+      castlevaniaGameOver.pause();
+      zeldaGameOver.pause();
+      pokemonGameOver.pause();
+    } else if (userTheme === "sailorMoon"){
+      marioGameOver.pause();
+      sailorMoonGameOver.play();
+      castlevaniaGameOver.pause();
+      zeldaGameOver.pause();
+      pokemonGameOver.pause();
+    } else if (userTheme === "castlevania"){
+      marioGameOver.pause();
+      sailorMoonGameOver.pause();
+      castlevaniaGameOver.play();
+      zeldaGameOver.pause();
+      pokemonGameOver.pause();
+    } else if (userTheme === "zelda1"){
+      marioGameOver.pause();
+      sailorMoonGameOver.pause();
+      castlevaniaGameOver.pause();
+      zeldaGameOver.play();
+      pokemonGameOver.pause();
+    } else if (userTheme === "zelda2"){
+      marioGameOver.pause();
+      sailorMoonGameOver.pause();
+      castlevaniaGameOver.pause();
+      zeldaGameOver.play();
+      pokemonGameOver.pause();
+    } else if (userTheme === "zelda3"){
+      marioGameOver.pause();
+      sailorMoonGameOver.pause();
+      castlevaniaGameOver.pause();
+      zeldaGameOver.play();
+      pokemonGameOver.pause();
+    } else if (userTheme === "pokemon"){
+      marioGameOver.pause();
+      sailorMoonGameOver.pause();
+      castlevaniaGameOver.pause();
+      zeldaGameOver.pause();
+      pokemonGameOver.play();
+    } else {
+      marioGameOver.pause();
+      sailorMoonGameOver.pause();
+      castlevaniaGameOver.pause();
+      zeldaGameOver.pause();
+      pokemonGameOver.pause();
+    }
+  }
 
 //receives user input
   $(document.body).on('keydown', function onkeypress(key) {
