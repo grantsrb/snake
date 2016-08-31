@@ -343,6 +343,7 @@ $(document).ready(function() {
           }
           var spaceFree = true;
           do {
+            spaceFree = true;
             itemX = Math.floor((Math.random()*canvasWidth)/10)*10;
             itemY = Math.floor((Math.random()*canvasHeight)/10)*10;
             for (var i = 0; i < snakeGuy.bits.length; i++) {
@@ -363,13 +364,9 @@ $(document).ready(function() {
           flashingText(ctx, stopRecursion);
           restart = true;
           //pauses game audio
-          musicThemes[0][0].pause();
-          musicThemes[0][1].pause();
-          musicThemes[0][2].pause();
-          musicThemes[0][3].pause();
-          musicThemes[0][4].pause();
-          musicThemes[0][5].pause();
-          musicThemes[0][6].pause();
+          for (var i = 0; i < musicThemes[0].length; i++) {
+            musicThemes[0][i].pause();
+          }
           //starts game over audio
           gameOverAudio(userThemeChoice, musicThemes);
         } else {
