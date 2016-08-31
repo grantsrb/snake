@@ -164,16 +164,13 @@ $(document).ready(function() {
     userThemeChoice = $("#themes").val();
     $("body").removeClass();
     $("h1").removeClass();
-    console.log(userThemeChoice);
     for (var i = 0; i < musicThemes[1].length; i++) {
       if (userThemeChoice == musicThemes[1][i]) {
-        console.log('userTheme: ' + userThemeChoice + ' ' + i);
         $("body").addClass(musicThemes[1][i] + "Background");
         $("h1").addClass(musicThemes[1][i] + "Text");
         playMusic(i,musicThemes);
         break;
       } else {
-        console.log('userTheme: ' + userThemeChoice + ' ' + i + 'else');
         $("body").removeClass();
         $("h1").removeClass();
         playMusic(null,musicThemes);
@@ -183,60 +180,22 @@ $(document).ready(function() {
 
   //function to play themed game over audio
   function gameOverAudio(userTheme){
-    var marioGameOver = $("#mario-game-over")[0];
-    var sailorMoonGameOver = $("#sailor-moon-game-over")[0];
-    var castlevaniaGameOver = $("#castlevania-game-over")[0];
-    var zeldaGameOver = $("#zelda-game-over")[0];
-    var pokemonGameOver = $("#pokemon-game-over")[0];
-
-    if (userTheme === "mario"){
-      marioGameOver.play();
-      sailorMoonGameOver.pause();
-      castlevaniaGameOver.pause();
-      zeldaGameOver.pause();
-      pokemonGameOver.pause();
-    } else if (userTheme === "sailorMoon"){
-      marioGameOver.pause();
-      sailorMoonGameOver.play();
-      castlevaniaGameOver.pause();
-      zeldaGameOver.pause();
-      pokemonGameOver.pause();
-    } else if (userTheme === "castlevania"){
-      marioGameOver.pause();
-      sailorMoonGameOver.pause();
-      castlevaniaGameOver.play();
-      zeldaGameOver.pause();
-      pokemonGameOver.pause();
-    } else if (userTheme === "zelda1"){
-      marioGameOver.pause();
-      sailorMoonGameOver.pause();
-      castlevaniaGameOver.pause();
-      zeldaGameOver.play();
-      pokemonGameOver.pause();
-    } else if (userTheme === "zelda2"){
-      marioGameOver.pause();
-      sailorMoonGameOver.pause();
-      castlevaniaGameOver.pause();
-      zeldaGameOver.play();
-      pokemonGameOver.pause();
-    } else if (userTheme === "zelda3"){
-      marioGameOver.pause();
-      sailorMoonGameOver.pause();
-      castlevaniaGameOver.pause();
-      zeldaGameOver.play();
-      pokemonGameOver.pause();
-    } else if (userTheme === "pokemon"){
-      marioGameOver.pause();
-      sailorMoonGameOver.pause();
-      castlevaniaGameOver.pause();
-      zeldaGameOver.pause();
-      pokemonGameOver.play();
-    } else {
-      marioGameOver.pause();
-      sailorMoonGameOver.pause();
-      castlevaniaGameOver.pause();
-      zeldaGameOver.pause();
-      pokemonGameOver.pause();
+    var gameOverThemes = [[0,0,0,0,0], ['marioGameOver', 'sailorMoonGameOver', 'castlevaniaGameOver', 'zeldaGameOver', 'pokemonGameOver']];
+    for (var i = 0; i < gameOverThemes[1].length; i++) {
+      gameOverThemes[0][i] = ($("#" + gameOverThemes[1][i])[0]);
+    }
+    for (var i = 0; i < musicThemes[1].length; i++) {
+      if (userThemeChoice === musicThemes[1][i]) {
+        if(i === 3 || i === 4 || i === 5) {
+          playMusic(3, gamOverThemes);
+          break;
+        } else {
+          playMusic(i,gameOverThemes);
+          break;
+        }
+      } else {
+      playMusic(null,gameOverThemes);
+      }
     }
   }
 
