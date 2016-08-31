@@ -155,12 +155,12 @@ function playMusic(songToPlayIndex, songs) {
 // UI Logic
 $(document).ready(function() {
 //grabs user input for themes and changes background/font/music accordingly
-  var musicThemes = [[0,0,0,0,0,0,0], ['mario','sailorMoon','castlevania','zelda1','zelda2','zelda3','pokemon']];
-  var userThemeChoice = "";
-  for (var i = 0; i < musicThemes[1].length; i++) {
-    musicThemes[0][i] = ($("#" + musicThemes[1][i])[0]);
-  }
-  $("select#themes").change(function(){
+  $("#themes").change(function() {
+    var musicThemes = [[0,0,0,0,0,0,0], ['mario','sailorMoon','castlevania','zelda1','zelda2','zelda3','pokemon']];
+    var userThemeChoice = "";
+    for (var i = 0; i < musicThemes[1].length; i++) {
+      musicThemes[0][i] = ($("#" + musicThemes[1][i])[0]);
+    }
     userThemeChoice = $("#themes").val();
     $("body").removeClass();
     $("h1").removeClass();
@@ -168,16 +168,13 @@ $(document).ready(function() {
       if (userThemeChoice == musicThemes[1][i]) {
         $("body").addClass(musicThemes[1][i] + "Background");
         $("h1").addClass(musicThemes[1][i] + "Text");
-        playMusic(i,musicThemes);
         break;
       } else {
         $("body").removeClass();
         $("h1").removeClass();
-        playMusic(null,musicThemes);
       }
     }
   });
-
   //function to play themed game over audio
   function gameOverAudio(userTheme, musicThemes){
     var gameOverThemes = [[0,0,0,0,0], ['marioGameOver', 'sailorMoonGameOver', 'castlevaniaGameOver', 'zeldaGameOver', 'pokemonGameOver']];
@@ -234,6 +231,7 @@ $(document).ready(function() {
   var intervalCounter = 0;
 //initiates and maintains frame updates
   $("body").on("keydown", function(key) {
+    $('#themes').prop('disabled', true);
     stopRecursion.stop = true;
     if (restart == true){
       restart = false;
@@ -275,11 +273,32 @@ $(document).ready(function() {
       });
       var colorChoices = parseColors(powerChoices);
 
+      //Plays chosen music for theme
+      var musicThemes = [[0,0,0,0,0,0,0], ['mario','sailorMoon','castlevania','zelda1','zelda2','zelda3','pokemon']];
+      var userThemeChoice = "";
+      for (var i = 0; i < musicThemes[1].length; i++) {
+        musicThemes[0][i] = ($("#" + musicThemes[1][i])[0]);
+      }
+      userThemeChoice = $("#themes").val();
+      $("body").removeClass();
+      $("h1").removeClass();
+      for (var i = 0; i < musicThemes[1].length; i++) {
+        if (userThemeChoice == musicThemes[1][i]) {
+          $("body").addClass(musicThemes[1][i] + "Background");
+          $("h1").addClass(musicThemes[1][i] + "Text");
+          playMusic(i,musicThemes);
+          break;
+        } else {
+          $("body").removeClass();
+          $("h1").removeClass();
+          playMusic(null,musicThemes);
+        }
+      }
+
       // Animation function
       window.requestAnimationFrame(function step(timestamp) {
         $(".showScore").text(snakeGuy.score);
         if(timestamp > prevTimestamp + snakeGuy.snakeSpeed) {
-          console.log(snakeGuy.snakeSpeed);
           prevTimestamp = timestamp;
           // canvas color
           ctx.fillStyle = 'white';
@@ -369,6 +388,7 @@ $(document).ready(function() {
           }
           //starts game over audio
           gameOverAudio(userThemeChoice, musicThemes);
+          $('#themes').prop('disabled', false);
         } else {
           window.requestAnimationFrame(step);
         }
