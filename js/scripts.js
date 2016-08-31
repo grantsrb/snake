@@ -322,7 +322,7 @@ $(document).ready(function() {
           // paints colored items
           if (itemColor != null) {
             if (itemColor == 'star') {
-              ctx.fillStyle = colorsArray[colorCounter%4];
+              ctx.fillStyle = colorsArray[colorCounter%5];
               colorCounter++;
             } else {
               ctx.fillStyle = itemColor;
@@ -333,7 +333,7 @@ $(document).ready(function() {
           ctx.fillRect(blackItemX,blackItemY, snakeGuy.bits[0].squareSize, snakeGuy.bits[0].squareSize);
           // snakebit color
           if (snakeGuy.bitColor == 'star'){
-            snakeColor = colorsArray[colorCounter%4];
+            snakeColor = colorsArray[colorCounter%5];
             colorCounter++;
           }
           ctx.fillStyle = snakeColor;
@@ -366,21 +366,7 @@ $(document).ready(function() {
         if(snakeGuy.bits[0].xc === coloredItemX  && snakeGuy.bits[0].yc === coloredItemY && itemColor != null) {
           snakeGuy.changeProperty(itemColor, ctx, difficultyIn);
           snakeColor = itemColor;
-          itemColor = Math.floor(Math.random()*5);
-          if (itemColor == 0 && colorChoices[0][0]) {
-            itemColor = 'orange';
-          } else if (itemColor == 1 && colorChoices[0][1]) {
-            itemColor = 'green';
-          } else if (itemColor == 2 && colorChoices[0][2]) {
-            itemColor = 'blue';
-          } else if (itemColor == 3 && colorChoices[0][3]) {
-            itemColor = 'red';
-          } else if (itemColor == 4 && colorChoices[0][4]) {
-            itemColor = 'star';
-          } else {
-            itemColor = powerChoices[Math.floor(Math.random()*(powerChoices.length-1))];
-          }
-
+          itemColor = powerChoices[Math.floor(Math.random()*(powerChoices.length))];
 
           var spaceFree = true;
           do {
