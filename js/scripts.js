@@ -11,7 +11,7 @@ SnakeBit.prototype.updateBit = function() {
   this.context.fillRect(this.xc, this.yc, this.squareSize, this.squareSize);
 }
 //holds snake body information
-function Snake(context, xStart, yStart, squareSizeIn) {
+function Snake(context, xStart, yStart, squareSizeIn, difficulty) {
   this.initialX = xStart;
   this.initialY = yStart;
   this.bitSquareSize = squareSizeIn;
@@ -24,7 +24,7 @@ function Snake(context, xStart, yStart, squareSizeIn) {
     this.bits.push(tailBit);
   }
   context.stroke();
-  this.snakeSpeed = 50;
+  this.snakeSpeed = difficulty;
   this.bitColor = 'black';
   this.gameEnd = false;
   this.score = 0;
@@ -70,8 +70,8 @@ Snake.prototype.gameOver = function(canvasWidth, canvasHeight) {
     }
   }
 }
-Snake.prototype.changeProperty = function(color, context) {
-  this.snakeSpeed = 50;
+Snake.prototype.changeProperty = function(color, context, difficulty) {
+  this.snakeSpeed = difficulty;
   if(this.bitColor == 'orange' || this.bitColor == 'star') {
     for (var i = 1; i < 11; i++) {
       this.bits.pop();
@@ -80,7 +80,7 @@ Snake.prototype.changeProperty = function(color, context) {
   this.bitColor = color;
   switch (color) {
     case 'red':
-      this.snakeSpeed = 10;
+      this.snakeSpeed -= 40;
       break;
     case 'orange':
       for (var i = 1; i < 11; i++) {
@@ -92,7 +92,7 @@ Snake.prototype.changeProperty = function(color, context) {
       this.score += 50;
       break;
     case 'star':
-      this.snakeSpeed = 10;
+      this.snakeSpeed -= 40;
       for (var i = 1; i < 11; i++) {
         var tailBit = new SnakeBit(this.bits[2].xc,this.bits[2].yc, context, this.bitSquareSize);
         this.bits.push(tailBit);
@@ -152,8 +152,8 @@ function playMusic(songToPlayIndex, songs) {
   }
 }
 
+// UI Logic
 $(document).ready(function() {
-
 //grabs user input for themes and changes background/font/music accordingly
   var musicThemes = [[0,0,0,0,0,0,0], ['mario','sailorMoon','castlevania','zelda1','zelda2','zelda3','pokemon']];
   var userThemeChoice = "";
@@ -179,22 +179,23 @@ $(document).ready(function() {
   });
 
   //function to play themed game over audio
-  function gameOverAudio(userTheme){
+  function gameOverAudio(userTheme, musicThemes){
     var gameOverThemes = [[0,0,0,0,0], ['marioGameOver', 'sailorMoonGameOver', 'castlevaniaGameOver', 'zeldaGameOver', 'pokemonGameOver']];
     for (var i = 0; i < gameOverThemes[1].length; i++) {
       gameOverThemes[0][i] = ($("#" + gameOverThemes[1][i])[0]);
     }
     for (var i = 0; i < musicThemes[1].length; i++) {
-      if (userThemeChoice === musicThemes[1][i]) {
+      if (userTheme === musicThemes[1][i]) {
         if(i === 3 || i === 4 || i === 5) {
-          playMusic(3, gamOverThemes);
+          playMusic(3, gameOverThemes);
+          break;
+        } else if (i === 6) {
+          playMusic(4, gameOverThemes);
           break;
         } else {
           playMusic(i,gameOverThemes);
           break;
         }
-      } else {
-      playMusic(null,gameOverThemes);
       }
     }
   }
@@ -255,9 +256,11 @@ $(document).ready(function() {
       var colorCounter = 0;
       var colorsArray = ['red', 'blue', 'orange', 'green'];
       var snakeColor = "black";
-      var snakeGuy = new Snake(ctx, xStart, yStart, bitSquareSize);
+      var difficultyIn = parseInt($("#difficulty").val());
+      var snakeGuy = new Snake(ctx, xStart, yStart, bitSquareSize, difficultyIn);
       snakeGuy.bits[0].xc += 10;
       snakeGuy.updateBits();
+
 
       //creates initial coordinates for item
       var itemX = Math.floor((Math.random()*canvasWidth)/10)*10;
@@ -276,7 +279,7 @@ $(document).ready(function() {
       window.requestAnimationFrame(function step(timestamp) {
         $(".showScore").text(snakeGuy.score);
         if(timestamp > prevTimestamp + snakeGuy.snakeSpeed) {
-
+          console.log(snakeGuy.snakeSpeed);
           prevTimestamp = timestamp;
           // canvas color
           ctx.fillStyle = 'white';
@@ -322,7 +325,7 @@ $(document).ready(function() {
         }
         //generates new item placement when snake consumes item
         if(snakeGuy.bits[0].xc === itemX  && snakeGuy.bits[0].yc === itemY) {
-          snakeGuy.changeProperty(itemColor, ctx);
+          snakeGuy.changeProperty(itemColor, ctx, difficultyIn);
           snakeColor = itemColor;
           itemColor = Math.floor(Math.random()*6);
           if (itemColor == 0 && colorChoices[0][0]) {
@@ -368,7 +371,7 @@ $(document).ready(function() {
           musicThemes[0][5].pause();
           musicThemes[0][6].pause();
           //starts game over audio
-          gameOverAudio(userThemeChoice);
+          gameOverAudio(userThemeChoice, musicThemes);
         } else {
           window.requestAnimationFrame(step);
         }
