@@ -12,12 +12,13 @@ Input Behavior | Input | Output
 ---------------|-------|--------
 A pixel that responded to arrow keys | ----> | pixel moves right
 Pixel can be moved in a different direction | ^ | pixel can be moved up after being moved right
-Pixel will have a constant movement in direction indicated by user | --> | -- -- -- --->
-Each pixel in 'snake' body will inherit input movement at a given mark along the x, y axis | x: 300, y: 200 | each pixel moves at that place
+Pixel cannot move in opposite direction of current direction | --> | --> / <--
+Pixel will have a constant movement in direction indicated | --> | -- -- -- --->
+Each pixel in 'snake' body will inherit movement at a given mark along the x, y axis | x: 300, y: 200 | each pixel moves at that place
 Game will plot an item in random x, y coordinates | math.floor(math.random()) | ooooXoooo
 When item is consumed by 'snake', it's body will increase in length | this.bits.push(tailBit); | [][][][]
 Item regenerates after being consumed in random location | if(snakeGuy.bits[0].xc === itemX  && snakeGuy.bits[0].yc === itemY) | N/A
-Each item collected will increase user score | item consumed | user.score += 10
+Each item collected will increase documented score | item consumed | user.score += 10
 When 'snake' hits a canvas boundary, game ends | snake = boundary(xCoordinate) | Game Over !
 When snake hits itself, game over | snakeHead(xCoordinate) = body(xCoordinate) | Game Over !
 Different items, allow for different game settings | redItem = speedUp | snake increases speed
