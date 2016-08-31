@@ -104,25 +104,25 @@ Snake.prototype.changeProperty = function(color, context, difficulty) {
 }
 
 //Game Over Flashing Text function -- added by JA
-function flashingText(context, stopRecursion){
+function flashingText(context, stopRecursion, width, height){
   var count = 200;
   var timer = setInterval(function(){
     count --;
     if (!stopRecursion.stop) {
       if (count%2 == 1){
-        context.clearRect(0, 0, 800, 600);
-        context.font = "80px Monoton";
+        context.clearRect(0, 0, width, height);
+        context.font = "55px Monoton";
         context.fillStyle = "red";
         context.textAlign = "center";
-        context.fillText("GAME OVER", 400, 300);
+        context.fillText("GAME OVER", width/2, height/2);
         $("canvas").css('background-color', 'black');
       }
       else{
-        context.clearRect(0, 0, 800, 600);
-        context.font = "80px Monoton";
+        context.clearRect(0, 0, width, height);
+        context.font = "55px Monoton";
         context.fillStyle = "white";
         context.textAlign = "center";
-        context.fillText("GAME OVER", 400, 300);
+        context.fillText("GAME OVER", width/2, height/2);
         $("canvas").css('background-color', 'black');
       }
     } else {
@@ -155,6 +155,19 @@ function playMusic(songToPlayIndex, songs) {
 
 // UI Logic
 $(document).ready(function() {
+  //function to capture user input for canvas size
+  var c = document.getElementById('canvas');
+  var ctx = c.getContext('2d');
+  var userCanvasOption = "";
+  var userCanvasOptionSplit = [800, 600];
+  $("form#canvasOption").change(function(){
+    userCanvasOption = $("input:radio[name=canvasSize]:checked").val();
+    userCanvasOptionSplit = [];
+    userCanvasOptionSplit = userCanvasOption.split(" ");
+    $(c).attr('width', userCanvasOptionSplit[0]);
+    $(c).attr('height', userCanvasOptionSplit[1]);
+  });
+
 //grabs user input for themes and changes background/font/music accordingly
   $("#themes").change(function() {
     var musicThemes = [[0,0,0,0,0,0,0], ['mario','sailorMoon','castlevania','zelda1','zelda2','zelda3','pokemon']];
@@ -237,14 +250,12 @@ $(document).ready(function() {
       restart = false;
 
       //declares initial game variables
-      var c = document.getElementById('canvas');
-      var ctx = c.getContext('2d');
-      var canvasWidth = 800;
-      var canvasHeight = 600;
+      var canvasWidth = parseInt(userCanvasOptionSplit[0]);
+      var canvasHeight = parseInt(userCanvasOptionSplit[1]);
       var prevTimestamp = null;
       var bitSquareSize = 9;
-      var xStart = 100;
-      var yStart = 300;
+      var xStart = canvasWidth/4;
+      var yStart = canvasHeight/2;
 
       // Blank screen
       ctx.fillStyle = 'white';
@@ -413,7 +424,7 @@ $(document).ready(function() {
         if(snakeGuy.gameEnd) {
           stopRecursion.stop = false;
           // Adds flashing Game Over text
-          flashingText(ctx, stopRecursion);
+          flashingText(ctx, stopRecursion, canvasWidth, canvasHeight);
           restart = true;
           //pauses game audio
           for (var i = 0; i < musicThemes[0].length; i++) {
