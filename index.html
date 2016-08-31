@@ -55,66 +55,70 @@
           <div class="difficultyRange">
             <input id="difficulty" type="range" min="10" max="100" value="50">
           </div>
-
-
-          <h2>Control Key:</h2>
-          <p>Option 1:</p>
-          <img class="img-responsive" src="img/ControlKeyIJKL.png">
-          <p>Option 2:</p>
-          <img class="img-responsive" src="img/ControlKeyWASD.png">
         </div>
         <div class="col-md-8">
           <canvas style="border: 5px solid black;" id="canvas" width="800" height="600"></canvas>
         </div>
         <div class="col-md-2" id="rightColumn">
           <h2 class="score">Score: <span class="showScore"></span></h2>
-          <h2>Rules:</h2>
-          <ul>
-            <li>Consume as many items on the screen as possible without running into yourself or the wall.</li>
-            <li>If you run into yourself or the wall, you will die</li>
-            <li>Use the control keys below to navigate the snake throughout the game</li>
-            <li>Eat as many items on the screen as possible</li>
-            <li>description about what each color/item will do to the snake</li>
+          <h2>Item Index:</h2>
+          <ul id="items">
+            <li><strong>Orange</strong> - Increase body size.</li>
+            <li><strong>Green</strong> - Gain 50 points.</li>
+            <li><strong>Blue</strong> - Gain the ability to "ghost" through anything.</li>
+            <li><strong>Red</strong> - Increase speed.</li>
+            <li><strong>Star</strong> - All powers above, and add 100 points.</li>
           </ul>
         </div>
-        <audio loop="loop" id="mario">
-          <source src="audio/mario-theme.mp3" type="audio/mpeg">
-        </audio>
-        <audio loop="loop" id="sailorMoon">
-          <source src="audio/sailor-moon-theme.mp3" type="audio/mpeg">
-        </audio>
-        <audio loop="loop" id="castlevania">
-          <source src="audio/castlevania-theme.mp3" type="audio/mpeg">
-        </audio>
-        <audio loop="loop" id="zelda1">
-          <source src="audio/zelda-woods.mp3" type="audio/mpeg">
-        </audio>
-        <audio loop="loop" id="zelda2">
-          <source src="audio/zelda-water.mp3" type="audio/mpeg">
-        </audio>
-        <audio loop="loop" id="zelda3">
-          <source src="audio/zelda-dino.mp3" type="audio/mpeg">
-        </audio>
-        <audio loop="loop" id="pokemon">
-          <source src="audio/pokemon-theme.mp3" type="audio/mpeg">
-        </audio>
-
-        <audio id="pokemonGameOver">
-          <source src="audio/pokemon-game-over.mp3" type="audio/mpeg">
-        </audio>
-        <audio id="zeldaGameOver">
-          <source src="audio/zelda-game-over.mp3" type="audio/mpeg">
-        </audio>
-        <audio id="castlevaniaGameOver">
-          <source src="audio/castlevania-game-over.mp3" type="audio/mpeg">
-        </audio>
-        <audio id="sailorMoonGameOver">
-          <source src="audio/sailor-moon-game-over.mp3" type="audio/mpeg">
-        </audio>
-        <audio id="marioGameOver">
-          <source src="audio/mario-game-over.mp3" type="audio/mpeg">
-        </audio>
       </div>
+      <div class="row">
+        <h2 id="controlTitle">Control Key:</h2>
+        <div class="col-md-2 col-md-offset-4">
+          <p class="option1">Option 1:</p>
+          <img class="img-responsive option1" src="img/ControlKeyIJKL.png">
+        </div>
+        <div class="col-md-2">
+          <p class="option2">Option 2:</p>
+          <img class="img-responsive option2" src="img/ControlKeyWASD.png">
+        </div>
+      </div>
+      <audio loop="loop" id="mario">
+        <source src="audio/mario-theme.mp3" type="audio/mpeg">
+      </audio>
+      <audio loop="loop" id="sailorMoon">
+        <source src="audio/sailor-moon-theme.mp3" type="audio/mpeg">
+      </audio>
+      <audio loop="loop" id="castlevania">
+        <source src="audio/castlevania-theme.mp3" type="audio/mpeg">
+      </audio>
+      <audio loop="loop" id="zelda1">
+        <source src="audio/zelda-woods.mp3" type="audio/mpeg">
+      </audio>
+      <audio loop="loop" id="zelda2">
+        <source src="audio/zelda-water.mp3" type="audio/mpeg">
+      </audio>
+      <audio loop="loop" id="zelda3">
+        <source src="audio/zelda-dino.mp3" type="audio/mpeg">
+      </audio>
+      <audio loop="loop" id="pokemon">
+        <source src="audio/pokemon-theme.mp3" type="audio/mpeg">
+      </audio>
+
+      <audio id="pokemonGameOver">
+        <source src="audio/pokemon-game-over.mp3" type="audio/mpeg">
+      </audio>
+      <audio id="zeldaGameOver">
+        <source src="audio/zelda-game-over.mp3" type="audio/mpeg">
+      </audio>
+      <audio id="castlevaniaGameOver">
+        <source src="audio/castlevania-game-over.mp3" type="audio/mpeg">
+      </audio>
+      <audio id="sailorMoonGameOver">
+        <source src="audio/sailor-moon-game-over.mp3" type="audio/mpeg">
+      </audio>
+      <audio id="marioGameOver">
+        <source src="audio/mario-game-over.mp3" type="audio/mpeg">
+      </audio>
     </div>
   </body>
 </html>

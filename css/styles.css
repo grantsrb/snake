@@ -130,6 +130,25 @@ img{
 .pokemonBackground {
   background: #e60000;
 }
+#controlTitle {
+  text-align: center;
+  width: 800px;
+  margin-top: 0px;
+}
+.option1 {
+  margin-left: 60px;
+}
+.option2 {
+  margin-left: 60px;
+}
+#items li {
+  list-style: none;
+  font-size: 1.25em;
+  margin-top: 10px;
+}
+strong {
+  text-decoration: underline;
+}
 input[type='checkbox']{
   display: none;
 }
