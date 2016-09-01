@@ -4,6 +4,9 @@
 @font-face { font-family: Triforce; src: url('../font/Triforce.ttf');}
 @font-face { font-family: Pocket Monster; src: url('../font/pocket_monsters_2.ttf');}
 
+.container{
+  width: 1250px;
+}
 body {
   font-family: 'Abel', sans-serif;
   color: black;
@@ -31,7 +34,13 @@ h2{
 }
 .score{
   border: 2px solid black;
-  margin-top: -20px;
+}
+.high-score{
+  border: 2px solid black;
+  border-radius: 5px;
+  padding-left: 5px;
+  margin-left: 29px;
+  padding-right: 10px;
 }
 h3 {
   margin: auto;
