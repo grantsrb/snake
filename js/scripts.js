@@ -160,6 +160,8 @@ $(document).ready(function() {
   var ctx = c.getContext('2d');
   var userCanvasOption = "";
   var userCanvasOptionSplit = [800, 600];
+  var currentScore = 0;
+  var highScore = 0;
   $("form#canvasOption").change(function(){
     userCanvasOption = $("input:radio[name=canvasSize]:checked").val();
     userCanvasOptionSplit = [];
@@ -269,6 +271,7 @@ $(document).ready(function() {
       var snakeGuy = new Snake(ctx, xStart, yStart, bitSquareSize, difficultyIn);
       snakeGuy.bits[0].xc += 10;
       snakeGuy.updateBits();
+      currentScore = snakeGuy.score;
 
 
       //creates initial coordinates for item
@@ -312,7 +315,7 @@ $(document).ready(function() {
 
       // Animation function
       window.requestAnimationFrame(function step(timestamp) {
-        $(".showScore").text(snakeGuy.score);
+        $(".showScore").text(currentScore);
         if(timestamp > prevTimestamp + snakeGuy.snakeSpeed) {
           prevTimestamp = timestamp;
           // canvas color
@@ -408,6 +411,7 @@ $(document).ready(function() {
         //ends game if game ending conditions are true
         snakeGuy.gameOver(canvasWidth, canvasHeight);
         if(snakeGuy.gameEnd) {
+          currentScore = snakeGuy.score;
           stopRecursion.stop = false;
           lastKey = 'right';
           // Adds flashing Game Over text
@@ -420,7 +424,11 @@ $(document).ready(function() {
           //starts game over audio
           gameOverAudio(userThemeChoice, musicThemes);
           $('#themes').prop('disabled', false);
+          if (highScore < currentScore)
+            highScore = currentScore;
+          $("#highScore").text(highScore);
         } else {
+          currentScore = snakeGuy.score;
           window.requestAnimationFrame(step);
         }
       });
