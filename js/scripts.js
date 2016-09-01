@@ -409,6 +409,7 @@ $(document).ready(function() {
         snakeGuy.gameOver(canvasWidth, canvasHeight);
         if(snakeGuy.gameEnd) {
           stopRecursion.stop = false;
+          lastKey = 'right';
           // Adds flashing Game Over text
           flashingText(ctx, stopRecursion, canvasWidth, canvasHeight);
           restart = true;
