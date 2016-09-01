@@ -160,12 +160,12 @@ strong {
   text-decoration: underline;
 }
 #transparent {
-  margin-top: -60px;
+  margin-top: -50px;
   padding-bottom: 55px;
   background-color:rgba(255,255,255,0.4);
   width: 800px;
   border-radius: 5px;
-  margin-left: 200px;
+  margin-left: 210px;
 }
 input[type='checkbox']{
   display: none;
