@@ -267,7 +267,8 @@ $(document).ready(function() {
       var colorCounter = 0;
       var colorsArray = ['red', 'blue', 'orange', 'green'];
       var snakeColor = "black";
-      var difficultyIn = parseInt($("#difficulty").val());
+      var difficultyIn = -(parseInt($("#difficulty").val()));
+      console.log(difficultyIn);
       var snakeGuy = new Snake(ctx, xStart, yStart, bitSquareSize, difficultyIn);
       snakeGuy.bits[0].xc += 10;
       snakeGuy.updateBits();
