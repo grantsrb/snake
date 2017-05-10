@@ -6,6 +6,8 @@
 
 A classic game of Snake with a modern twist.
 
+See the website [here](https://rawgit.com/grantsrb/snake/master/index.html)
+
 ## Specifications
 
 Input Behavior | Input | Output
