@@ -1,4 +1,4 @@
-#Snake Game
+# Snake Game
 
 ### Elysia Avery Nason, Joanna Anderson, Sandro Alvarez, and Satchel Grant, 08.30.16
 
@@ -6,7 +6,7 @@
 
 A classic game of Snake with a modern twist.
 
-##Specifications
+## Specifications
 
 Input Behavior | Input | Output
 ---------------|-------|--------
